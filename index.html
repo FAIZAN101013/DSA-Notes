@@ -44,7 +44,12 @@
 
   * { box-sizing: border-box; margin: 0; padding: 0; }
 
-  html { scroll-behavior: smooth; }
+  html {
+    scroll-behavior: smooth;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+  }
 
   body {
     font-family: var(--font-body);
@@ -54,12 +59,16 @@
     min-height: 100vh;
     line-height: 1.7;
     font-size: 15px;
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
   }
 
   /* ── SIDEBAR ── */
   #sidebar {
     width: var(--sidebar-w);
-    min-height: 100vh;
+    height: 100vh;
+    height: 100dvh;
     background: var(--bg2);
     border-right: 1px solid var(--border);
     position: fixed;
@@ -67,12 +76,13 @@
     display: flex;
     flex-direction: column;
     z-index: 100;
-    overflow-y: auto;
+    overflow: hidden;
   }
 
   .sidebar-logo {
     padding: 24px 20px 20px;
     border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
   }
   .sidebar-logo h1 {
     font-family: var(--font-display);
@@ -96,6 +106,7 @@
   .sidebar-progress {
     padding: 14px 20px;
     border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
   }
   .progress-label {
     font-size: 11px;
@@ -127,6 +138,7 @@
   .sidebar-search {
     padding: 14px 20px;
     border-bottom: 1px solid var(--border);
+    flex-shrink: 0;
   }
   .search-wrap {
     position: relative;
@@ -154,7 +166,14 @@
     font-size: 14px;
   }
 
-  .sidebar-nav { padding: 12px 0; flex: 1; }
+  .sidebar-nav {
+    padding: 12px 0;
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    -webkit-overflow-scrolling: touch;
+  }
 
   .nav-section-label {
     font-size: 10px;
@@ -177,6 +196,8 @@
     transition: all var(--transition);
     border-left: 2px solid transparent;
     text-decoration: none;
+    min-width: 0;
+    overflow-wrap: anywhere;
   }
   .nav-item:hover {
     color: var(--text);
@@ -223,6 +244,7 @@
     border-top: 1px solid var(--border);
     font-size: 11px;
     color: var(--text3);
+    flex-shrink: 0;
   }
   .kbd {
     display: inline-block;
@@ -239,6 +261,8 @@
   #main {
     margin-left: var(--sidebar-w);
     flex: 1;
+    width: calc(100% - var(--sidebar-w));
+    min-width: 0;
     min-height: 100vh;
   }
 
@@ -246,7 +270,7 @@
   .hero {
     background: var(--bg2);
     border-bottom: 1px solid var(--border);
-    padding: 60px 60px 50px;
+    padding: clamp(44px, 5vw, 60px) clamp(24px, 5vw, 60px) clamp(36px, 4vw, 50px);
     position: relative;
     overflow: hidden;
   }
@@ -331,7 +355,13 @@
   .tag-greedy { background: var(--green2); border-color: rgba(74,222,128,0.3); color: var(--green); }
 
   /* ── CONTENT ── */
-  .content { padding: 48px 60px; max-width: 900px; }
+  .content {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: clamp(28px, 4vw, 48px) clamp(18px, 5vw, 60px);
+    min-width: 0;
+  }
 
   /* SECTION HEADERS */
   .section-group {
@@ -390,6 +420,7 @@
     align-items: center;
     justify-content: space-between;
     gap: 16px;
+    flex-wrap: wrap;
     transition: background var(--transition);
     user-select: none;
   }
@@ -398,6 +429,8 @@
     display: flex;
     align-items: center;
     gap: 14px;
+    flex: 1 1 260px;
+    min-width: 0;
   }
   .topic-num {
     font-family: var(--font-mono);
@@ -411,6 +444,7 @@
     font-weight: 600;
     color: var(--text);
     letter-spacing: -0.3px;
+    overflow-wrap: anywhere;
   }
   .topic-meta {
     display: flex;
@@ -462,6 +496,8 @@
     gap: 0;
     margin: 22px 0 20px;
     border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: thin;
   }
   .tab-btn {
     padding: 8px 16px;
@@ -475,6 +511,8 @@
     transition: all var(--transition);
     font-family: var(--font-body);
     margin-bottom: -1px;
+    flex: 0 0 auto;
+    white-space: nowrap;
   }
   .tab-btn:hover { color: var(--text2); }
   .tab-btn.active { color: var(--accent2); border-bottom-color: var(--accent); }
@@ -503,6 +541,8 @@
 
   /* COMPLEXITY TABLE */
   .complexity-table {
+    display: block;
+    overflow-x: auto;
     width: 100%;
     border-collapse: collapse;
     margin: 16px 0;
@@ -539,6 +579,7 @@
     border-radius: var(--radius-lg);
     margin: 16px 0;
     overflow: hidden;
+    max-width: 100%;
   }
   .code-header {
     display: flex;
@@ -572,6 +613,7 @@
     margin: 0;
     padding: 18px 20px;
     overflow-x: auto;
+    max-width: 100%;
     font-family: var(--font-mono);
     font-size: 13px;
     line-height: 1.65;
@@ -744,6 +786,9 @@
     padding: 22px;
     margin-bottom: 36px;
   }
+  .study-dashboard, .topic-card, .lc-card, .code-wrap, .mini-card, .pattern-card {
+    min-width: 0;
+  }
   .study-toolbar, .filter-row, .practice-row {
     display: flex;
     gap: 10px;
@@ -858,6 +903,49 @@
   }
   .flashcard .answer { display: none; margin-top: 10px; color: var(--teal); }
   .flashcard.flipped .answer { display: block; }
+  .handbook-list {
+    padding-left: 18px;
+    color: var(--text2);
+    font-size: 13.5px;
+  }
+  .handbook-list li { margin: 5px 0; }
+  .dryrun-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 8px;
+    margin: 12px 0;
+  }
+  .dryrun-cell {
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg3);
+    padding: 10px;
+    font-size: 12px;
+    color: var(--text2);
+  }
+  .dryrun-cell strong {
+    display: block;
+    color: var(--text);
+    font-family: var(--font-mono);
+    margin-bottom: 4px;
+  }
+  .video-script {
+    border-left: 3px solid var(--teal);
+    background: var(--teal2);
+    border-radius: var(--radius);
+    padding: 12px 14px;
+    color: var(--text2);
+    font-size: 13.5px;
+  }
+  .line-explain {
+    margin-top: 12px;
+    padding: 12px 14px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg3);
+  }
+  .line-explain h4 { margin-bottom: 6px; font-size: 13px; }
+  .line-explain ol { padding-left: 20px; color: var(--text2); font-size: 13px; }
   body.light-mode {
     --bg: #f7f8fb;
     --bg2: #ffffff;
@@ -921,20 +1009,127 @@
 
   h4 { font-family: var(--font-display); font-weight: 600; color: var(--text); }
 
-  @media (max-width: 860px) {
-    #sidebar { transform: translateX(-100%); transition: transform var(--transition); }
+  @media (max-width: 1100px) {
+    body.sidebar-open { overflow: hidden; }
+    body.sidebar-open::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.48);
+      z-index: 120;
+    }
+    #sidebar {
+      width: min(86vw, 320px);
+      transform: translateX(-100%);
+      transition: transform var(--transition);
+      box-shadow: 18px 0 40px rgba(0,0,0,0.35);
+      z-index: 250;
+    }
     #sidebar.open { transform: translateX(0); }
-    #main { margin-left: 0; }
-    .mobile-toggle { display: flex; }
+    #main {
+      margin-left: 0;
+      width: 100%;
+      min-width: 0;
+    }
+    .mobile-toggle {
+      display: flex;
+      z-index: 300;
+    }
     .hero { padding: 60px 24px 40px; }
     .hero h1 { font-size: 32px; }
     .content { padding: 32px 24px; }
+    .study-dashboard { padding: 16px; border-radius: var(--radius-lg); }
+    .study-toolbar, .filter-row, .practice-row { align-items: stretch; }
+    .tool-btn, .select-control { flex: 1 1 145px; min-width: 0; }
+    .practice-output { flex-basis: 100%; }
+    .topic-header {
+      padding: 18px;
+      align-items: flex-start;
+      flex-wrap: wrap;
+    }
+    .topic-header-left {
+      flex: 1 1 100%;
+      min-width: 0;
+    }
+    .topic-title-wrap { min-width: 0; }
+    .topic-title-wrap h3 {
+      font-size: 17px;
+      line-height: 1.35;
+      overflow-wrap: anywhere;
+    }
+    .topic-meta { flex-wrap: wrap; }
+    .topic-done-btn, .bookmark-btn, .status-select {
+      flex: 1 1 120px;
+      min-width: 0;
+      text-align: center;
+    }
+    .topic-chevron { margin-left: auto; }
+    .topic-body { padding: 0 18px 20px; }
+    .tab-bar {
+      overflow-x: auto;
+      scrollbar-width: thin;
+      padding-bottom: 2px;
+    }
+    .tab-btn {
+      flex: 0 0 auto;
+      white-space: nowrap;
+    }
+    .mini-grid, .pattern-grid {
+      grid-template-columns: 1fr;
+    }
+    .lc-header {
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+    .lc-title {
+      flex: 1 1 100%;
+      order: 3;
+    }
+    .code-header {
+      gap: 10px;
+      align-items: flex-start;
+    }
+    .code-lang {
+      min-width: 0;
+      overflow-wrap: anywhere;
+    }
+    pre {
+      font-size: 12px;
+      padding: 14px;
+    }
+    .complexity-table {
+      display: block;
+      overflow-x: auto;
+      white-space: nowrap;
+    }
+    .hero-stats { gap: 16px; }
+    .stat { flex: 1 1 130px; }
+  }
+
+  @media (max-width: 520px) {
+    .hero { padding: 58px 18px 32px; }
+    .hero h1 { font-size: 28px; }
+    .hero p { font-size: 15px; }
+    .content { padding: 24px 14px; }
+    .section-header { gap: 12px; }
+    .section-icon { width: 42px; height: 42px; }
+    .section-header h2 { font-size: 24px; }
+    .topic-card { border-radius: var(--radius-lg); }
+    .topic-header { padding: 16px; gap: 10px; }
+    .topic-body { padding: 0 14px 18px; }
+    .tool-btn, .select-control, .status-select, .topic-done-btn, .bookmark-btn {
+      flex-basis: 100%;
+      width: 100%;
+    }
+    .visual-cell, .dryrun-cell { flex: 1 1 100%; }
+    .lc-card { padding: 14px; }
+    .mobile-toggle { top: 12px; left: 12px; }
   }
 </style>
 </head>
 <body>
 
-<button class="mobile-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+<button class="mobile-toggle" id="menuToggle" aria-label="Toggle menu" aria-expanded="false">☰</button>
 
 <aside id="sidebar">
   <div class="sidebar-logo">
@@ -2490,7 +2685,7 @@ document.getElementById('searchInput').addEventListener('input', function() {
 });
 
 // Active nav on scroll
-const sectionEls = TOPICS.map(id => document.getElementById(id)).filter(Boolean);
+let sectionEls = TOPICS.map(id => document.getElementById(id)).filter(Boolean);
 function onScroll() {
   const scrollY = window.scrollY + 120;
   let active = null;
@@ -2506,11 +2701,33 @@ function onScroll() {
 window.addEventListener('scroll', onScroll, { passive: true });
 
 // Mobile menu
-document.getElementById('menuToggle').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.toggle('open');
+function closeSidebar() {
+  document.getElementById('sidebar')?.classList.remove('open');
+  document.body.classList.remove('sidebar-open');
+  document.getElementById('menuToggle')?.setAttribute('aria-expanded', 'false');
+}
+function toggleSidebar(e) {
+  e?.stopPropagation();
+  const sidebar = document.getElementById('sidebar');
+  const isOpen = sidebar.classList.toggle('open');
+  document.body.classList.toggle('sidebar-open', isOpen);
+  document.getElementById('menuToggle')?.setAttribute('aria-expanded', String(isOpen));
+}
+document.getElementById('menuToggle').addEventListener('click', toggleSidebar);
+document.getElementById('main').addEventListener('click', closeSidebar);
+document.getElementById('sidebarNav').addEventListener('click', e => {
+  if (e.target.closest('.nav-item')) closeSidebar();
 });
-document.getElementById('main').addEventListener('click', () => {
-  document.getElementById('sidebar').classList.remove('open');
+document.addEventListener('click', e => {
+  if (!document.body.classList.contains('sidebar-open')) return;
+  if (e.target.closest('#sidebar') || e.target.closest('#menuToggle')) return;
+  closeSidebar();
+});
+window.addEventListener('resize', () => {
+  if (window.innerWidth > 1100) closeSidebar();
+});
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') closeSidebar();
 });
 
 // Keyboard shortcut
@@ -2628,7 +2845,7 @@ function exampleCode(topic, lang) {
     : `def solve(nums):\n    best = 0\n    seen = {}\n    for value in nums:\n        seen[value] = seen.get(value, 0) + 1\n        best = max(best, seen[value])\n    return best`;
 }
 
-function questionCard(topic, question, idx) {
+function questionCardLegacy(topic, question, idx) {
   const difficulty = idx === 0 ? 'Easy' : idx === 1 ? 'Medium' : 'Hard';
   const diffClass = idx === 0 ? 'diff-easy' : idx === 1 ? 'diff-medium' : 'diff-hard';
   const solved = SOLVED_QUESTIONS.has(question) ? ' <span class="status-pill status-solved">✓ Solved</span>' : '';
@@ -2645,7 +2862,7 @@ function questionCard(topic, question, idx) {
   </div>`;
 }
 
-function renderTopic(topic) {
+function renderTopicLegacy(topic) {
   const status = getStatusMap()[topic.id] || 'not-started';
   const bookmarked = getBookmarks().includes(topic.id);
   const notes = storeGet(NOTES_KEY, {})[topic.id] || '';
@@ -2762,6 +2979,7 @@ function buildHandbook() {
     });
   });
   TOPICS.push(...HANDBOOK_TOPICS.map(t => t.id));
+  sectionEls = TOPICS.map(id => document.getElementById(id)).filter(Boolean);
   populatePatternFilter();
   updateNavDone();
 }
@@ -2851,6 +3069,496 @@ function wireStudyTools() {
   ['difficultyFilter','patternFilter','statusFilter'].forEach(id => document.getElementById(id)?.addEventListener('change', applyStudyFilters));
   document.getElementById('bookmarkFilter')?.addEventListener('click', e => { e.target.classList.toggle('active'); applyStudyFilters(); });
   document.getElementById('searchInput')?.addEventListener('input', applyStudyFilters);
+}
+
+const TOPIC_DETAIL_OVERRIDES = {
+  'dp-handbook': {
+    definition: 'Dynamic Programming solves optimization, counting, and decision problems by storing answers to overlapping subproblems.',
+    why: 'Use it when brute force repeats the same choices many times and the answer can be built from smaller answers.',
+    properties: ['Overlapping subproblems', 'Optimal substructure', 'Explicit state definition', 'Base cases before transitions', 'Traversal order matters'],
+    observations: 'DP interview answer = state, transition, base case, order, answer. If any one is vague, the solution will feel shaky.',
+    visual: ['Can choices be made?', 'Do subproblems repeat?', 'What state changes?', 'What transition combines choices?', 'Which cell is the answer?'],
+    formulas: ['Memoization: recursive function + cache key', 'Tabulation: fill smaller states before larger states', '0/1 take-skip: dp[i][w] = max(skip, take)', 'String DP: dp[i][j] compares prefixes', 'Interval DP: solve by increasing length']
+  },
+  'greedy-handbook': {
+    definition: 'Greedy algorithms commit to the locally best choice only when that choice can be proven safe for the global optimum.',
+    why: 'Use it when a local rule such as earliest finish, smallest cost, or farthest reach never blocks a better future answer.',
+    properties: ['Greedy choice property', 'Optimal substructure', 'No backtracking', 'Usually sort first', 'Needs proof, not hope'],
+    observations: 'The interview proof is usually exchange argument: show any optimal solution can be transformed to include your greedy choice.',
+    visual: ['Sort candidates', 'Pick safest local choice', 'Discard incompatible choices', 'Repeat', 'Prove exchange'],
+    formulas: ['Intervals: sort by end time', 'Jump Game: farthest = max(farthest, i + nums[i])', 'Fractional knapsack: value / weight density', 'Assignments: sort both sides and match smallest sufficient']
+  },
+  'arrays': {
+    definition: 'An array stores elements in indexed order with O(1) random access.',
+    why: 'Most interview inputs are arrays because they expose scanning, sorting, prefix, window, and two-pointer patterns.',
+    properties: ['Contiguous logical index space', 'Fast access by index', 'Expensive middle insertion in static arrays', 'Sorting unlocks many optimizations'],
+    observations: 'Before coding, ask whether order matters. If not, sorting or hashing may simplify the problem.'
+  },
+  'linked-lists': {
+    definition: 'A linked list stores nodes connected by references instead of contiguous indexes.',
+    why: 'Use it for pointer manipulation, cycle detection, in-place reversal, and merge operations.',
+    properties: ['O(1) insert after known node', 'O(n) search', 'No random access', 'Pointer order matters more than values'],
+    observations: 'Use a dummy node for list construction and save next pointers before rewiring.'
+  },
+  'graphs': {
+    definition: 'A graph models relationships between vertices using edges, directed or undirected, weighted or unweighted.',
+    why: 'Use it for connectivity, shortest paths, dependencies, components, grids, and state transitions.',
+    properties: ['Adjacency list is most common', 'Visited set prevents cycles', 'BFS gives unweighted shortest path', 'DFS explores components deeply'],
+    observations: 'Many matrix problems are disguised graphs: each cell is a node and neighbors are edges.'
+  }
+};
+
+const QUESTION_BANK = {
+  'Two Sum': {
+    statement: 'Given nums and target, return indices of two numbers whose sum equals target.',
+    pattern: 'Hash Table complement lookup',
+    dryRun: ['nums=[2,7,11,15]', 'target=9', 'i=0 need=7 store 2', 'i=1 value=7 found 2', 'answer=[0,1]'],
+    js: `function twoSum(nums, target) {
+  const seen = new Map();
+  for (let i = 0; i < nums.length; i++) {
+    const need = target - nums[i];
+    if (seen.has(need)) return [seen.get(need), i];
+    seen.set(nums[i], i);
+  }
+  return [];
+}`,
+    py: `def two_sum(nums, target):
+    seen = {}
+    for i, value in enumerate(nums):
+        need = target - value
+        if need in seen:
+            return [seen[need], i]
+        seen[value] = i
+    return []`,
+    time: 'O(n)', space: 'O(n)', notes: 'Store after checking so the same element is not reused.'
+  },
+  'Maximum Subarray': {
+    statement: 'Return the maximum possible sum of a non-empty contiguous subarray.',
+    pattern: 'Kadane DP',
+    dryRun: ['[-2,1,-3,4,-1,2,1,-5,4]', 'restart at 4', 'extend through -1,2,1', 'best=6'],
+    js: `function maxSubArray(nums) {
+  let current = nums[0], best = nums[0];
+  for (let i = 1; i < nums.length; i++) {
+    current = Math.max(nums[i], current + nums[i]);
+    best = Math.max(best, current);
+  }
+  return best;
+}`,
+    py: `def max_sub_array(nums):
+    current = best = nums[0]
+    for value in nums[1:]:
+        current = max(value, current + value)
+        best = max(best, current)
+    return best`,
+    time: 'O(n)', space: 'O(1)', notes: 'Initialize with nums[0] so all-negative arrays work.'
+  },
+  'Best Time to Buy and Sell Stock': {
+    statement: 'Choose one buy day and one later sell day to maximize profit.',
+    pattern: 'One-pass minimum prefix',
+    dryRun: ['prices=[7,1,5,3,6,4]', 'min=7', 'min=1', 'profit=5 at sell=6'],
+    js: `function maxProfit(prices) {
+  let minPrice = Infinity, best = 0;
+  for (const price of prices) {
+    minPrice = Math.min(minPrice, price);
+    best = Math.max(best, price - minPrice);
+  }
+  return best;
+}`,
+    py: `def max_profit(prices):
+    min_price = float('inf')
+    best = 0
+    for price in prices:
+        min_price = min(min_price, price)
+        best = max(best, price - min_price)
+    return best`,
+    time: 'O(n)', space: 'O(1)', notes: 'The buy must happen before sell, so update while scanning left to right.'
+  },
+  'Merge Intervals': {
+    statement: 'Merge all overlapping intervals and return non-overlapping ranges.',
+    pattern: 'Sort then merge',
+    dryRun: ['[[1,3],[2,6],[8,10]]', 'sort by start', '[1,3] overlaps [2,6]', 'merge to [1,6]'],
+    js: `function merge(intervals) {
+  intervals.sort((a, b) => a[0] - b[0]);
+  const ans = [];
+  for (const [start, end] of intervals) {
+    if (!ans.length || ans[ans.length - 1][1] < start) ans.push([start, end]);
+    else ans[ans.length - 1][1] = Math.max(ans[ans.length - 1][1], end);
+  }
+  return ans;
+}`,
+    py: `def merge(intervals):
+    intervals.sort()
+    ans = []
+    for start, end in intervals:
+        if not ans or ans[-1][1] < start:
+            ans.append([start, end])
+        else:
+            ans[-1][1] = max(ans[-1][1], end)
+    return ans`,
+    time: 'O(n log n)', space: 'O(n)', notes: 'Sorting is the key step; after that only the last merged interval can overlap.'
+  },
+  'Reverse Linked List': {
+    statement: 'Reverse a singly linked list in-place and return the new head.',
+    pattern: 'Pointer rewiring',
+    dryRun: ['prev=null cur=1', 'save next=2', '1.next=null', 'move prev=1 cur=2'],
+    js: `function reverseList(head) {
+  let prev = null, cur = head;
+  while (cur) {
+    const next = cur.next;
+    cur.next = prev;
+    prev = cur;
+    cur = next;
+  }
+  return prev;
+}`,
+    py: `def reverse_list(head):
+    prev, cur = None, head
+    while cur:
+        nxt = cur.next
+        cur.next = prev
+        prev = cur
+        cur = nxt
+    return prev`,
+    time: 'O(n)', space: 'O(1)', notes: 'Save nxt before changing cur.next.'
+  },
+  'Linked List Cycle': {
+    statement: 'Return true if a linked list contains a cycle.',
+    pattern: 'Fast and slow pointers',
+    dryRun: ['slow moves 1', 'fast moves 2', 'cycle exists if they meet', 'null fast means no cycle'],
+    js: `function hasCycle(head) {
+  let slow = head, fast = head;
+  while (fast && fast.next) {
+    slow = slow.next;
+    fast = fast.next.next;
+    if (slow === fast) return true;
+  }
+  return false;
+}`,
+    py: `def has_cycle(head):
+    slow = fast = head
+    while fast and fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        if slow is fast:
+            return True
+    return False`,
+    time: 'O(n)', space: 'O(1)', notes: 'Identity comparison matters; compare nodes, not values.'
+  },
+  'Fibonacci Number': {
+    statement: 'Return the nth Fibonacci number.',
+    pattern: '1D DP / rolling variables',
+    dryRun: ['n=5', '0,1', '1,2,3,5', 'answer=5'],
+    js: `function fib(n) {
+  let a = 0, b = 1;
+  for (let i = 0; i < n; i++) [a, b] = [b, a + b];
+  return a;
+}`,
+    py: `def fib(n):
+    a, b = 0, 1
+    for _ in range(n):
+        a, b = b, a + b
+    return a`,
+    time: 'O(n)', space: 'O(1)', notes: 'This is the smallest DP example: previous two states determine the next.'
+  },
+  'Coin Change': {
+    statement: 'Return the minimum number of coins needed to make amount, or -1.',
+    pattern: 'Unbounded knapsack DP',
+    dryRun: ['coins=[1,2,5], amount=11', 'dp[0]=0', 'dp[5]=1', 'dp[10]=2', 'dp[11]=3'],
+    js: `function coinChange(coins, amount) {
+  const dp = Array(amount + 1).fill(Infinity);
+  dp[0] = 0;
+  for (let a = 1; a <= amount; a++) {
+    for (const coin of coins) {
+      if (coin <= a) dp[a] = Math.min(dp[a], dp[a - coin] + 1);
+    }
+  }
+  return dp[amount] === Infinity ? -1 : dp[amount];
+}`,
+    py: `def coin_change(coins, amount):
+    dp = [float('inf')] * (amount + 1)
+    dp[0] = 0
+    for a in range(1, amount + 1):
+        for coin in coins:
+            if coin <= a:
+                dp[a] = min(dp[a], dp[a - coin] + 1)
+    return -1 if dp[amount] == float('inf') else dp[amount]`,
+    time: 'O(amount * coins)', space: 'O(amount)', notes: 'dp[a] means best answer for amount a, not using first a coins.'
+  },
+  'Longest Common Subsequence': {
+    statement: 'Return the length of the longest subsequence common to two strings.',
+    pattern: '2D string DP',
+    dryRun: ['abcde vs ace', 'a matches -> 1', 'c matches -> 2', 'e matches -> 3'],
+    js: `function longestCommonSubsequence(a, b) {
+  const dp = Array.from({ length: a.length + 1 }, () => Array(b.length + 1).fill(0));
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      dp[i][j] = a[i - 1] === b[j - 1] ? dp[i - 1][j - 1] + 1 : Math.max(dp[i - 1][j], dp[i][j - 1]);
+    }
+  }
+  return dp[a.length][b.length];
+}`,
+    py: `def longest_common_subsequence(a, b):
+    dp = [[0] * (len(b) + 1) for _ in range(len(a) + 1)]
+    for i in range(1, len(a) + 1):
+        for j in range(1, len(b) + 1):
+            if a[i - 1] == b[j - 1]:
+                dp[i][j] = dp[i - 1][j - 1] + 1
+            else:
+                dp[i][j] = max(dp[i - 1][j], dp[i][j - 1])
+    return dp[-1][-1]`,
+    time: 'O(mn)', space: 'O(mn)', notes: 'Use prefixes. dp[i][j] never means exact ending unless you define it that way.'
+  },
+  'Longest Increasing Subsequence': {
+    statement: 'Return length of the longest strictly increasing subsequence.',
+    pattern: 'DP or binary-search patience sorting',
+    dryRun: ['[10,9,2,5,3,7,101,18]', 'tails=[2]', 'tails=[2,3,7]', 'tails=[2,3,7,18]'],
+    js: `function lengthOfLIS(nums) {
+  const tails = [];
+  for (const x of nums) {
+    let l = 0, r = tails.length;
+    while (l < r) {
+      const m = Math.floor((l + r) / 2);
+      if (tails[m] < x) l = m + 1; else r = m;
+    }
+    tails[l] = x;
+  }
+  return tails.length;
+}`,
+    py: `from bisect import bisect_left
+
+def length_of_lis(nums):
+    tails = []
+    for x in nums:
+        i = bisect_left(tails, x)
+        if i == len(tails):
+            tails.append(x)
+        else:
+            tails[i] = x
+    return len(tails)`,
+    time: 'O(n log n)', space: 'O(n)', notes: 'tails[k] is the smallest possible tail for an increasing subsequence of length k+1.'
+  },
+  'House Robber': {
+    statement: 'Maximize robbed money without robbing adjacent houses.',
+    pattern: 'Take / skip DP',
+    dryRun: ['[2,7,9,3,1]', 'take/skip at each house', 'best evolves 2,7,11,11,12'],
+    js: `function rob(nums) {
+  let prev2 = 0, prev1 = 0;
+  for (const money of nums) {
+    const cur = Math.max(prev1, prev2 + money);
+    prev2 = prev1;
+    prev1 = cur;
+  }
+  return prev1;
+}`,
+    py: `def rob(nums):
+    prev2 = prev1 = 0
+    for money in nums:
+        cur = max(prev1, prev2 + money)
+        prev2, prev1 = prev1, cur
+    return prev1`,
+    time: 'O(n)', space: 'O(1)', notes: 'Every house has exactly two choices: take it with i-2, or skip it with i-1.'
+  },
+  'Assign Cookies': {
+    statement: 'Assign cookies to maximize content children where cookie size must meet greed.',
+    pattern: 'Greedy sorting',
+    dryRun: ['g=[1,2,3], s=[1,1]', 'sort both', 'match child 1', 'answer=1'],
+    js: `function findContentChildren(g, s) {
+  g.sort((a, b) => a - b);
+  s.sort((a, b) => a - b);
+  let child = 0;
+  for (const cookie of s) {
+    if (child < g.length && cookie >= g[child]) child++;
+  }
+  return child;
+}`,
+    py: `def find_content_children(g, s):
+    g.sort()
+    s.sort()
+    child = 0
+    for cookie in s:
+        if child < len(g) and cookie >= g[child]:
+            child += 1
+    return child`,
+    time: 'O(n log n + m log m)', space: 'O(1)', notes: 'Give the smallest sufficient cookie to the least greedy remaining child.'
+  },
+  'Non-overlapping Intervals': {
+    statement: 'Remove the minimum intervals so the rest are non-overlapping.',
+    pattern: 'Greedy earliest finish',
+    dryRun: ['[[1,2],[2,3],[3,4],[1,3]]', 'sort by end', 'keep [1,2]', 'remove [1,3]', 'answer=1'],
+    js: `function eraseOverlapIntervals(intervals) {
+  intervals.sort((a, b) => a[1] - b[1]);
+  let removed = 0, end = -Infinity;
+  for (const [s, e] of intervals) {
+    if (s < end) removed++;
+    else end = e;
+  }
+  return removed;
+}`,
+    py: `def erase_overlap_intervals(intervals):
+    intervals.sort(key=lambda x: x[1])
+    removed, end = 0, float('-inf')
+    for s, e in intervals:
+        if s < end:
+            removed += 1
+        else:
+            end = e
+    return removed`,
+    time: 'O(n log n)', space: 'O(1)', notes: 'Keeping the interval that ends earliest leaves maximum room for future intervals.'
+  }
+};
+
+function cleanQuestionName(question) {
+  return String(question).replace(/^(Easy|Medium|Hard):\s*/i, '').trim();
+}
+
+function questionInfo(question, topic) {
+  const name = cleanQuestionName(question);
+  return QUESTION_BANK[name] || {
+    statement: `Solve ${name} under typical LeetCode constraints. First clarify input size, required return type, and whether duplicates or impossible cases exist.`,
+    pattern: topic.patterns.join(', '),
+    dryRun: ['read input', 'initialize invariant', 'process candidates', 'update answer', 'return final result'],
+    js: exampleCode(topic, 'js'),
+    py: exampleCode(topic, 'py'),
+    time: topic.patterns.includes('Sorting') || topic.patterns.includes('Intervals') ? 'O(n log n)' : 'O(n)',
+    space: topic.patterns.includes('DP') || topic.patterns.includes('Hashing') || topic.patterns.includes('Graph') ? 'O(n)' : 'O(1)',
+    notes: `Recognition clue: ${topic.focus}. State the brute force, then explain which repeated work or invalid candidates the pattern removes.`
+  };
+}
+
+function topicDetails(topic) {
+  const specific = TOPIC_DETAIL_OVERRIDES[topic.id] || {};
+  const isDP = topic.section === 'Dynamic Programming' || topic.patterns.includes('DP');
+  const isGreedy = topic.section === 'Greedy' || topic.patterns.includes('Greedy');
+  return {
+    definition: specific.definition || `${topic.title} is an interview concept centered on ${topic.focus.toLowerCase()}.`,
+    why: specific.why || `Use it when the problem hints at ${topic.focus.toLowerCase()} and constraints require a reusable invariant instead of brute force.`,
+    properties: specific.properties || (isDP
+      ? ['Define state precisely', 'Use base cases', 'Write transition', 'Choose memoization or tabulation', 'Return the correct state']
+      : isGreedy
+        ? ['Sort or prioritize candidates', 'Make a safe local choice', 'Never reconsider chosen items', 'Prove with exchange argument']
+        : ['Has a clear invariant', 'Works with predictable edge cases', 'Can usually be tested by dry run', 'Often combines with another pattern']),
+    observations: specific.observations || 'The fastest way to debug is to say what each variable means after every loop iteration.',
+    visual: specific.visual || ['input', 'state', 'decision', 'update', 'answer'],
+    formulas: specific.formulas || [`Main invariant: preserve ${topic.focus.toLowerCase()}`, `Pattern clue: ${topic.patterns[0]}`, 'Always test empty, single, duplicate, sorted, reversed, and impossible cases']
+  };
+}
+
+function solvedBadge(question) {
+  return SOLVED_QUESTIONS.has(cleanQuestionName(question)) ? ' <span class="status-pill status-solved">✓ Solved</span>' : '';
+}
+
+function questionCard(topic, question, idx) {
+  const name = cleanQuestionName(question);
+  const info = questionInfo(question, topic);
+  const difficulty = /hard:/i.test(question) || idx === 2 ? 'Hard' : /medium:/i.test(question) || idx === 1 ? 'Medium' : 'Easy';
+  const diffClass = difficulty === 'Easy' ? 'diff-easy' : difficulty === 'Medium' ? 'diff-medium' : 'diff-hard';
+  return `<div class="lc-card" data-difficulty="${difficulty}" data-pattern="${escapeHtml(info.pattern)}">
+    <div class="lc-header"><span class="lc-num">${difficulty}</span><span class="lc-title">${escapeHtml(name)}</span>${solvedBadge(question)}<span class="lc-difficulty ${diffClass}">${difficulty}</span></div>
+    <div class="lc-body">
+      <p class="lc-problem"><strong>Problem statement:</strong> ${escapeHtml(info.statement)}</p>
+      <p class="lc-problem"><strong>Pattern used:</strong> ${escapeHtml(info.pattern)}. Recognition trick: look for ${escapeHtml(topic.focus.toLowerCase())}, repeated decisions, sorted structure, dependency order, or a shrinking search space.</p>
+      <p class="lc-problem"><strong>Brute force -> optimized:</strong> Try every candidate to expose the bottleneck, then keep only the state needed by ${escapeHtml(info.pattern)}.</p>
+      <div class="dryrun-grid">${info.dryRun.map((step, i) => `<div class="dryrun-cell"><strong>Step ${i + 1}</strong>${escapeHtml(step)}</div>`).join('')}</div>
+      <div class="code-wrap"><div class="code-header"><span class="code-lang">JavaScript</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre>${escapeHtml(info.js)}</pre></div>
+      <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre>${escapeHtml(info.py)}</pre></div>
+      <div class="line-explain"><h4>Line-by-line explanation</h4><ol><li>Initialize the smallest state that can prove the answer.</li><li>Scan or recurse through valid candidates exactly once per state.</li><li>Apply the transition or invariant before moving forward.</li><li>Return the stored answer, not an intermediate helper unless the prompt asks for it.</li></ol></div>
+      <div class="lc-complexity"><span class="complexity-badge time-badge">Time: ${escapeHtml(info.time)}</span><span class="complexity-badge space-badge">Space: ${escapeHtml(info.space)}</span></div>
+      <p class="lc-problem"><strong>Important notes:</strong> ${escapeHtml(info.notes)}</p>
+    </div>
+  </div>`;
+}
+
+function renderTopic(topic) {
+  const detail = topicDetails(topic);
+  const status = getStatusMap()[topic.id] || 'not-started';
+  const bookmarked = getBookmarks().includes(topic.id);
+  const notes = storeGet(NOTES_KEY, {})[topic.id] || '';
+  const jsCode = escapeHtml(exampleCode(topic, 'js'));
+  const pyCode = escapeHtml(exampleCode(topic, 'py'));
+  const base = slug(topic.id);
+  return `<div class="topic-card handbook-topic" id="${topic.id}" data-title="${escapeHtml(topic.title)}" data-section="${escapeHtml(topic.section)}" data-patterns="${escapeHtml(topic.patterns.join('|'))}" data-difficulties="Easy|Medium|Hard">
+    <div class="topic-header" onclick="toggleTopic(this)">
+      <div class="topic-header-left">
+        <span class="topic-num">${escapeHtml(topic.num)}</span>
+        <div class="topic-title-wrap">
+          <h3>${escapeHtml(topic.title)}</h3>
+          <div class="topic-meta">${topic.patterns.map(p => `<span class="meta-pill">${escapeHtml(p)}</span>`).join('')}</div>
+        </div>
+      </div>
+      <button class="bookmark-btn ${bookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark(event,'${topic.id}')">${bookmarked ? 'Bookmarked' : 'Bookmark'}</button>
+      <select class="status-select status-${status}" onclick="event.stopPropagation()" onchange="setTopicStatus('${topic.id}', this.value)">
+        <option value="not-started" ${status === 'not-started' ? 'selected' : ''}>Not started</option>
+        <option value="revision" ${status === 'revision' ? 'selected' : ''}>Revision needed</option>
+        <option value="solved" ${status === 'solved' ? 'selected' : ''}>Solved</option>
+      </select>
+      <button class="topic-done-btn" onclick="toggleDone(event,'${topic.id}')">Mark done</button>
+      <span class="topic-chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab(this,'${base}-theory')">Theory</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-visual')">Visual</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-patterns')">Patterns</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-complexity')">Complexity</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-code')">Code</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-lc')">LeetCode</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-revision')">Revision</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-interview')">Interview</button>
+      </div>
+      <div class="tab-pane active" id="${base}-theory">
+        <div class="mini-grid">
+          <div class="mini-card"><h4>Definition</h4><p>${escapeHtml(detail.definition)}</p></div>
+          <div class="mini-card"><h4>Why we use it</h4><p>${escapeHtml(detail.why)}</p></div>
+          <div class="mini-card"><h4>Properties</h4><ul>${detail.properties.map(p => `<li>${escapeHtml(p)}</li>`).join('')}</ul></div>
+          <div class="mini-card"><h4>Advantages</h4><p>Reusable interview pattern, predictable complexity, easier dry runs, and cleaner correctness proof.</p></div>
+          <div class="mini-card"><h4>Disadvantages</h4><p>Fails when the invariant is wrong, constraints are misread, or edge cases are not included in the state.</p></div>
+          <div class="mini-card"><h4>Real-world use cases</h4><p>Search, scheduling, ranking, caching, routing, dependency resolution, analytics, compilers, and optimization systems.</p></div>
+        </div>
+        <div class="callout callout-info"><strong>Important observations</strong> ${escapeHtml(detail.observations)}</div>
+      </div>
+      <div class="tab-pane" id="${base}-visual">
+        <p class="lc-problem">Step-by-step walkthrough for ${escapeHtml(topic.title)}:</p>
+        <div class="visual-row">${detail.visual.map(v => `<span class="visual-cell">${escapeHtml(v)}</span>`).join('<span class="step-arrow">-></span>')}</div>
+        <div class="step-trace">Dry run habit: name initial state, process one element/choice, explain why the update is legal, then repeat until the answer cell or invariant is final.</div>
+        <div class="video-script"><strong>Video-style explanation script:</strong> Start with the brute force intuition, draw the state boxes, animate one update at a time, pause on the edge case, then summarize the invariant in one sentence.</div>
+      </div>
+      <div class="tab-pane" id="${base}-patterns">
+        <div class="pattern-grid">
+          ${topic.patterns.map(p => `<div class="pattern-card"><h4>${escapeHtml(p)}</h4><p>Use when the prompt hints at ${escapeHtml(topic.focus.toLowerCase())}, repeated checks, ordered decisions, or a need to preserve only useful candidates.</p></div>`).join('')}
+          <div class="pattern-card"><h4>Recognition trick</h4><p>Ask: What changes after one move? What stays true? Can I discard part of the search space?</p></div>
+          <div class="pattern-card"><h4>Common mistakes</h4><p>Off-by-one bounds, mutating shared state, missing base cases, and returning the wrong representation.</p></div>
+          <div class="pattern-card"><h4>Edge cases</h4><p>Empty input, one element, duplicates, negative numbers, disconnected graphs, impossible states, and large constraints.</p></div>
+        </div>
+      </div>
+      <div class="tab-pane" id="${base}-complexity">
+        <table class="complexity-table"><tr><th>Case</th><th>Time</th><th>Space</th><th>When</th></tr><tr><td>Best</td><td class="o-one">O(1) / O(log n)</td><td class="o-one">O(1)</td><td>Early exit, direct lookup, or already-valid state</td></tr><tr><td>Average</td><td class="o-n">O(n) / O(n log n)</td><td>O(1) to O(n)</td><td>One scan, sorting, heap, graph traversal, or maintained state</td></tr><tr><td>Worst</td><td class="o-n2">O(n^2) / O(states * choices)</td><td>O(n) to O(states)</td><td>Nested choices, dense graphs, 2D DP, backtracking, or interval states</td></tr></table>
+      </div>
+      <div class="tab-pane" id="${base}-code">
+        <div class="code-wrap"><div class="code-header"><span class="code-lang">JavaScript</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre>${jsCode}</pre></div>
+        <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre>${pyCode}</pre></div>
+        <div class="line-explain"><h4>Why it works</h4><ol><li>Every variable has one job: state, candidate, answer, or boundary.</li><li>The loop/recursion visits all necessary states and skips only states proven useless.</li><li>The invariant remains true after every update.</li><li>The final return matches the prompt's requested value, index, count, path, or boolean.</li></ol></div>
+      </div>
+      <div class="tab-pane" id="${base}-lc">${topic.questions.map((q, i) => questionCard(topic, q, i)).join('')}</div>
+      <div class="tab-pane" id="${base}-revision">
+        <div class="mini-grid">
+          <div class="mini-card"><h4>Quick formulas</h4><ul>${detail.formulas.map(f => `<li>${escapeHtml(f)}</li>`).join('')}</ul></div>
+          <div class="mini-card"><h4>Common tricks</h4><p>Sort first, use sentinels, cache repeated work, compress state, use dummy nodes, and convert recursion to iteration when stack depth is risky.</p></div>
+          <div class="mini-card"><h4>Interview reminders</h4><p>Say brute force first, identify bottleneck, state invariant, dry run, then optimize.</p></div>
+          <div class="mini-card flashcard" onclick="this.classList.toggle('flipped')"><h4>Flashcard</h4><p>How do you recognize ${escapeHtml(topic.title)}?</p><p class="answer">Look for ${escapeHtml(topic.focus.toLowerCase())} and constraints that reward ${escapeHtml(topic.patterns[0])}.</p></div>
+        </div>
+        <textarea class="notes-area" placeholder="Personal notes for ${escapeHtml(topic.title)}..." oninput="saveTopicNote('${topic.id}', this.value)">${escapeHtml(notes)}</textarea>
+      </div>
+      <div class="tab-pane" id="${base}-interview">
+        <div class="callout callout-warn"><strong>Most frequently asked</strong> Explain brute force, identify repeated work or wasted scans, then show how ${escapeHtml(topic.patterns[0])} improves it.</div>
+        <ul class="handbook-list">
+          <li><strong>Common traps:</strong> wrong loop bounds, forgotten impossible case, hidden duplicates, integer overflow, and failing to justify correctness.</li>
+          <li><strong>Follow-ups:</strong> return actual path/subsequence, reduce memory, support streaming input, handle weighted data, or make it concurrent-safe.</li>
+          <li><strong>Optimization discussion:</strong> brute force -> sort/precompute/cache -> maintain invariant -> prove no better candidate is discarded.</li>
+          <li><strong>Answer structure:</strong> constraints, brute force, optimized idea, proof, complexity, edge cases.</li>
+        </ul>
+      </div>
+    </div>
+  </div>`;
 }
 
 // Init
