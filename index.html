@@ -736,6 +736,154 @@
     letter-spacing: 0.5px;
   }
 
+  /* HANDBOOK TOOLS */
+  .study-dashboard {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 22px;
+    margin-bottom: 36px;
+  }
+  .study-toolbar, .filter-row, .practice-row {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 12px 0;
+  }
+  .tool-btn, .select-control, .status-select {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    color: var(--text2);
+    font-family: var(--font-body);
+    font-size: 12px;
+    padding: 8px 11px;
+  }
+  .tool-btn {
+    cursor: pointer;
+    transition: all var(--transition);
+  }
+  .tool-btn:hover, .tool-btn.active {
+    border-color: var(--accent);
+    color: var(--accent2);
+    background: var(--accent3);
+  }
+  .select-control, .status-select { outline: none; }
+  .mode-pill, .status-pill, .bookmark-btn {
+    border: 1px solid var(--border);
+    background: var(--surface);
+    color: var(--text3);
+    border-radius: 99px;
+    padding: 4px 9px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+  }
+  .bookmark-btn { cursor: pointer; }
+  .bookmark-btn.bookmarked {
+    color: var(--amber);
+    border-color: rgba(245,158,11,0.4);
+    background: var(--amber2);
+  }
+  .status-solved { color: var(--green); border-color: rgba(74,222,128,0.35); background: var(--green2); }
+  .status-revision { color: var(--amber); border-color: rgba(245,158,11,0.35); background: var(--amber2); }
+  .status-not-started { color: var(--text3); }
+  .notes-area {
+    width: 100%;
+    min-height: 84px;
+    resize: vertical;
+    background: var(--bg);
+    color: var(--text2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 12px;
+    font-family: var(--font-body);
+    margin-top: 12px;
+  }
+  .mini-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .mini-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px;
+  }
+  .mini-card h4 {
+    font-size: 13px;
+    margin-bottom: 6px;
+  }
+  .mini-card p, .mini-card li {
+    color: var(--text2);
+    font-size: 13px;
+    line-height: 1.55;
+  }
+  .mini-card ul { padding-left: 18px; }
+  .visual-row {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    align-items: center;
+    margin: 14px 0;
+  }
+  .visual-cell, .visual-node {
+    min-width: 42px;
+    min-height: 36px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    background: var(--surface);
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 12px;
+  }
+  .visual-node { border-radius: 50%; }
+  .practice-output {
+    flex: 1 1 280px;
+    color: var(--text2);
+    font-size: 13px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    background: var(--bg3);
+  }
+  .flashcard {
+    cursor: pointer;
+    min-height: 110px;
+  }
+  .flashcard .answer { display: none; margin-top: 10px; color: var(--teal); }
+  .flashcard.flipped .answer { display: block; }
+  body.light-mode {
+    --bg: #f7f8fb;
+    --bg2: #ffffff;
+    --bg3: #f1f4f8;
+    --bg4: #e8edf5;
+    --surface: #eef2f7;
+    --surface2: #e5ebf4;
+    --border: rgba(15,23,42,0.1);
+    --border2: rgba(15,23,42,0.18);
+    --text: #111827;
+    --text2: #475569;
+    --text3: #64748b;
+  }
+  body.revision-mode .tab-pane:not([id$="-revision"]) { display: none; }
+  body.revision-mode .tab-pane[id$="-revision"] { display: block; }
+  body.interview-mode .tab-pane:not([id$="-interview"]):not([id$="-lc"]) { display: none; }
+  body.interview-mode .tab-pane[id$="-interview"], body.interview-mode .tab-pane[id$="-lc"] { display: block; }
+  @media print {
+    #sidebar, .mobile-toggle, #back-top, .study-dashboard, .topic-done-btn, .bookmark-btn, .copy-btn { display: none !important; }
+    #main { margin-left: 0; }
+    body { background: #fff; color: #111; display: block; }
+    .content { max-width: none; padding: 20px; }
+    .topic-body, .tab-pane { display: block !important; }
+    .topic-card, .bigo-section { break-inside: avoid; border-color: #ccc; }
+  }
+
   /* MOBILE TOGGLE */
   .mobile-toggle {
     display: none;
@@ -855,6 +1003,41 @@
 
   <!-- CONTENT -->
   <div class="content">
+    <div class="study-dashboard" id="studyDashboard">
+      <span class="important-badge">Interview handbook system</span>
+      <div class="study-toolbar">
+        <button class="tool-btn" id="themeToggle" type="button">Light mode</button>
+        <button class="tool-btn" id="expandAllBtn" type="button">Expand all</button>
+        <button class="tool-btn" id="collapseAllBtn" type="button">Collapse all</button>
+        <button class="tool-btn" id="revisionModeBtn" type="button">Revision mode</button>
+        <button class="tool-btn" id="interviewModeBtn" type="button">Interview mode</button>
+        <button class="tool-btn" id="printBtn" type="button">Print</button>
+        <button class="tool-btn" id="pdfBtn" type="button">PDF export</button>
+      </div>
+      <div class="filter-row">
+        <select class="select-control" id="difficultyFilter" aria-label="Filter by difficulty">
+          <option value="">All difficulties</option>
+          <option value="Easy">Easy</option>
+          <option value="Medium">Medium</option>
+          <option value="Hard">Hard</option>
+        </select>
+        <select class="select-control" id="patternFilter" aria-label="Filter by pattern">
+          <option value="">All patterns</option>
+        </select>
+        <select class="select-control" id="statusFilter" aria-label="Filter by status">
+          <option value="">All statuses</option>
+          <option value="solved">Solved</option>
+          <option value="revision">Revision needed</option>
+          <option value="not-started">Not started</option>
+        </select>
+        <button class="tool-btn" id="bookmarkFilter" type="button">Bookmarks</button>
+      </div>
+      <div class="practice-row">
+        <button class="tool-btn" id="randomQuestionBtn" type="button">Random question</button>
+        <button class="tool-btn" id="dailyPracticeBtn" type="button">Mark daily practice</button>
+        <span class="practice-output" id="practiceOutput">Use filters, bookmarks, notes, flashcards, and random practice while revising.</span>
+      </div>
+    </div>
 
     <!-- ══ SECTION 1: MATH ══ -->
     <div class="section-group" id="math-section">
@@ -2153,6 +2336,17 @@ seen = {}
     </div>
 
     <!-- ══ CHEAT SHEET ══ -->
+    <div class="section-group" id="complete-handbook-section">
+      <div class="section-header">
+        <div class="section-icon icon-dp">HB</div>
+        <div>
+          <span class="section-num">Expansion</span>
+          <h2>Complete Interview Handbook</h2>
+        </div>
+      </div>
+      <div id="extendedHandbook"></div>
+    </div>
+
     <div class="section-group" id="cheatsheet">
       <div class="section-header">
         <div class="section-icon icon-algo">📊</div>
@@ -2325,9 +2519,343 @@ document.addEventListener('keydown', e => {
     const input = document.getElementById('searchInput');
     if (document.activeElement !== input) { e.preventDefault(); input.focus(); }
   }
+  if (e.key === 'e' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'TEXTAREA') document.getElementById('expandAllBtn')?.click();
+  if (e.key === 'c' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'TEXTAREA') document.getElementById('collapseAllBtn')?.click();
+  if (e.key === 'r' && !e.ctrlKey && !e.metaKey && document.activeElement.tagName !== 'TEXTAREA') document.getElementById('randomQuestionBtn')?.click();
 });
 
+const STATUS_KEY = 'dsa_topic_status';
+const BOOKMARK_KEY = 'dsa_bookmarks';
+const NOTES_KEY = 'dsa_notes';
+const DAILY_KEY = 'dsa_daily_practice';
+const SOLVED_QUESTIONS = new Set([
+  'Two Sum','Maximum Subarray','Best Time to Buy and Sell Stock','Merge Intervals',
+  'Assign Cookies','Non-overlapping Intervals','Fibonacci Number','Coin Change',
+  'Longest Common Subsequence','Longest Increasing Subsequence','House Robber',
+  'Reverse Linked List','Linked List Cycle'
+]);
+
+const HANDBOOK_TOPICS = [
+  ['gcd-deep','1.4','GCD Deep Dive','Foundational Math','Euclidean Algorithm',['GCD','Euclidean','Math'],['Easy: Find GCD of Array','Medium: Replace Non-Coprimes in Array','Hard: Max Points on a Line']],
+  ['euclidean-algorithm','1.5','Euclidean Algorithm','Foundational Math','Remainder reduction',['GCD','Recursion','Math'],['Easy: Greatest Common Divisor of Strings','Medium: Water Jug Problem','Hard: Count Different Palindromic Subsequences']],
+  ['prime-numbers','1.6','Prime Numbers','Foundational Math','Divisibility and factors',['Prime','Sieve','Math'],['Easy: Count Primes','Medium: Closest Prime Numbers in Range','Hard: Prime Subtraction Operation']],
+  ['sieve','1.7','Sieve of Eratosthenes','Foundational Math','Precompute primes',['Sieve','Precomputation','Math'],['Easy: Count Primes','Medium: Prime Arrangements','Hard: Four Divisors']],
+  ['modular-arithmetic','1.8','Modular Arithmetic','Foundational Math','Remainders and overflow',['Modulo','Hashing','Math'],['Easy: Add Digits','Medium: Pow(x, n)','Hard: Super Pow']],
+  ['fast-exponentiation','1.9','Fast Exponentiation','Foundational Math','Binary exponentiation',['Exponentiation','Divide and Conquer','Math'],['Easy: Power of Two','Medium: Pow(x, n)','Hard: Super Pow']],
+  ['bit-manipulation','1.10','Bit Manipulation','Foundational Math','Masks and binary tricks',['Bitmask','XOR','Math'],['Easy: Single Number','Medium: Subsets','Hard: Minimum Number of Flips to Convert Binary Matrix']],
+  ['number-theory','1.11','Number Theory Basics','Foundational Math','Factors, parity, divisibility',['Math','Factors','Modulo'],['Easy: Perfect Number','Medium: Ugly Number II','Hard: Kth Smallest Instructions']],
+  ['big-o-notation','1.12','Big O Notation','Foundational Math','Growth rate analysis',['Complexity','Analysis','Interview'],['Easy: Analyze Linear Search','Medium: Nested Loop Analysis','Hard: Recurrence Mastery']],
+  ['strings','2.6','Strings','Data Structures','Immutable sequences and character scans',['String','Two Pointers','Hashing'],['Valid Palindrome','Longest Substring Without Repeating Characters','Minimum Window Substring']],
+  ['sets','2.7','Sets','Data Structures','Unique membership',['Set','Hashing','Dedup'],['Contains Duplicate','Longest Consecutive Sequence','Making A Large Island']],
+  ['heap-priority-queue','2.8','Heap / Priority Queue','Data Structures','Repeated min or max access',['Heap','Priority Queue','Greedy'],['Last Stone Weight','Kth Largest Element in an Array','Find Median from Data Stream']],
+  ['trees','2.9','Trees','Data Structures','Hierarchical nodes',['Tree','DFS','BFS'],['Maximum Depth of Binary Tree','Binary Tree Level Order Traversal','Binary Tree Maximum Path Sum']],
+  ['bst','2.10','Binary Search Tree','Data Structures','Ordered binary tree',['BST','Binary Search','Tree'],['Search in a BST','Validate Binary Search Tree','Recover Binary Search Tree']],
+  ['trie','2.11','Trie','Data Structures','Prefix tree',['Trie','Prefix','String'],['Implement Trie','Word Search II','Stream of Characters']],
+  ['graphs','2.12','Graphs','Data Structures','Nodes and edges',['Graph','BFS','DFS'],['Find if Path Exists in Graph','Number of Islands','Word Ladder']],
+  ['union-find','2.13','Disjoint Set / Union Find','Data Structures','Dynamic connectivity',['Union Find','Graph','Components'],['Find if Path Exists in Graph','Number of Provinces','Redundant Connection II']],
+  ['bubble-sort','3.6','Bubble Sort','Sorting','Adjacent swaps',['Sorting','Stable','Quadratic'],['Sort Colors','Move Zeroes','Minimum Adjacent Swaps']],
+  ['selection-sort','3.7','Selection Sort','Sorting','Select minimum each pass',['Sorting','In-place','Quadratic'],['Sort an Array','Minimum Number Game','Pancake Sorting']],
+  ['insertion-sort','3.8','Insertion Sort','Sorting','Insert into sorted prefix',['Sorting','Stable','Online'],['Insertion Sort List','Sort List','Count of Smaller Numbers After Self']],
+  ['merge-sort','3.9','Merge Sort','Sorting','Divide, sort, merge',['Merge Sort','Divide and Conquer','Stable'],['Merge Sorted Array','Sort an Array','Reverse Pairs']],
+  ['quick-sort','3.10','Quick Sort','Sorting','Partition around pivot',['Quick Sort','Partition','Divide and Conquer'],['Sort Colors','Kth Largest Element in an Array','Sort an Array']],
+  ['heap-sort','3.11','Heap Sort','Sorting','Heapify then extract',['Heap','Sorting','In-place'],['Sort an Array','Kth Largest Element in an Array','IPO']],
+  ['counting-sort','3.12','Counting Sort','Sorting','Count frequencies',['Counting','Frequency','Linear'],['Sort Colors','Relative Sort Array','Maximum Gap']],
+  ['two-pointers','4.1','Two Pointers','Patterns','Move two indexes intelligently',['Two Pointers','Array','String'],['Valid Palindrome','3Sum','Trapping Rain Water']],
+  ['sliding-window','4.2','Sliding Window','Patterns','Maintain a changing range',['Sliding Window','String','Array'],['Best Time to Buy and Sell Stock','Longest Substring Without Repeating Characters','Minimum Window Substring']],
+  ['prefix-sum','4.3','Prefix Sum','Patterns','Range queries by cumulative sums',['Prefix Sum','Hashing','Array'],['Running Sum of 1d Array','Subarray Sum Equals K','Count of Range Sum']],
+  ['suffix-sum','4.4','Suffix Sum','Patterns','Right-to-left cumulative values',['Suffix Sum','Array','Precompute'],['Find Pivot Index','Product of Array Except Self','Candy']],
+  ['monotonic-stack','4.5','Monotonic Stack','Patterns','Keep useful ordered candidates',['Monotonic Stack','Stack','Next Greater'],['Next Greater Element I','Daily Temperatures','Largest Rectangle in Histogram']],
+  ['fast-slow-pointers','4.6','Fast / Slow Pointers','Patterns','Cycle and middle detection',['Linked List','Cycle','Two Pointers'],['Middle of the Linked List','Linked List Cycle','Find the Duplicate Number']],
+  ['binary-search-pattern','4.7','Binary Search Pattern','Patterns','Search sorted or answer space',['Binary Search','Bounds','Optimization'],['Binary Search','Search in Rotated Sorted Array','Median of Two Sorted Arrays']],
+  ['backtracking','4.8','Backtracking','Patterns','Explore choices and undo',['Backtracking','DFS','Recursion'],['Subsets','Combination Sum','N-Queens']],
+  ['bfs-pattern','4.9','BFS','Patterns','Shortest path by levels',['BFS','Queue','Graph'],['Flood Fill','Rotting Oranges','Word Ladder']],
+  ['dfs-pattern','4.10','DFS','Patterns','Explore depth before breadth',['DFS','Recursion','Graph'],['Path Sum','Number of Islands','Critical Connections in a Network']],
+  ['topological-sort','4.11','Topological Sort','Patterns','Order directed dependencies',['Topological Sort','DAG','Graph'],['Find the Town Judge','Course Schedule','Alien Dictionary']],
+  ['merge-intervals-pattern','4.12','Merge Intervals Pattern','Patterns','Sort ranges then combine',['Intervals','Sorting','Greedy'],['Merge Intervals','Insert Interval','Employee Free Time']],
+  ['greedy-patterns','4.13','Greedy Patterns','Patterns','Make provably safe local choices',['Greedy','Intervals','Proof'],['Assign Cookies','Non-overlapping Intervals','Jump Game II']],
+  ['dp-patterns','4.14','DP Patterns','Patterns','States and transitions',['DP','Memoization','Tabulation'],['Climbing Stairs','Coin Change','Edit Distance']],
+  ['dp-handbook','5.1','Dedicated DP Handbook','Dynamic Programming','Memoization, tabulation, state design',['DP','Decision Tree','Optimization'],['Fibonacci Number','Coin Change','Longest Common Subsequence']],
+  ['dp-fibonacci','5.2','DP Pattern: Fibonacci','Dynamic Programming','One-dimensional recurrence',['DP','Fibonacci','Tabulation'],['Fibonacci Number','Climbing Stairs','Decode Ways']],
+  ['dp-knapsack','5.3','DP Pattern: Knapsack','Dynamic Programming','Capacity constrained choices',['DP','Knapsack','Take Skip'],['Partition Equal Subset Sum','Target Sum','Ones and Zeroes']],
+  ['dp-take-skip','5.4','DP Pattern: Take / Skip','Dynamic Programming','Choose current item or skip it',['DP','Take Skip','Choices'],['House Robber','Delete and Earn','Best Time to Buy and Sell Stock with Cooldown']],
+  ['dp-grid','5.5','DP Pattern: Grid DP','Dynamic Programming','Move through rows and columns',['DP','Grid','Paths'],['Unique Paths','Minimum Path Sum','Cherry Pickup']],
+  ['dp-string','5.6','DP Pattern: String DP','Dynamic Programming','Compare prefixes',['DP','String','2D DP'],['Longest Common Subsequence','Edit Distance','Distinct Subsequences']],
+  ['dp-lcs','5.7','DP Pattern: LCS','Dynamic Programming','Longest shared subsequence',['DP','LCS','String'],['Longest Common Subsequence','Uncrossed Lines','Shortest Common Supersequence']],
+  ['dp-lis','5.8','DP Pattern: LIS','Dynamic Programming','Increasing sequence state',['DP','LIS','Binary Search'],['Longest Increasing Subsequence','Russian Doll Envelopes','Number of Longest Increasing Subsequence']],
+  ['dp-coin-change','5.9','DP Pattern: Coin Change','Dynamic Programming','Min or count combinations',['DP','Coin Change','Unbounded'],['Coin Change','Coin Change II','Minimum Cost to Merge Stones']],
+  ['dp-house-robber','5.10','DP Pattern: House Robber','Dynamic Programming','Non-adjacent choices',['DP','Take Skip','Linear'],['House Robber','House Robber II','House Robber III']],
+  ['dp-partition','5.11','DP Pattern: Partition DP','Dynamic Programming','Split ranges optimally',['DP','Partition','Intervals'],['Palindrome Partitioning II','Burst Balloons','Minimum Cost to Cut a Stick']],
+  ['dp-interval','5.12','DP Pattern: Interval DP','Dynamic Programming','Solve subarrays by length',['DP','Interval','2D DP'],['Longest Palindromic Subsequence','Burst Balloons','Strange Printer']],
+  ['dp-bitmask','5.13','DP Pattern: Bitmask DP','Dynamic Programming','Subset state compression',['DP','Bitmask','State Compression'],['Subsets','Partition to K Equal Sum Subsets','Shortest Path Visiting All Nodes']],
+  ['greedy-handbook','6.1','Dedicated Greedy Handbook','Greedy','Proofs and local choices',['Greedy','Proof','Optimization'],['Assign Cookies','Non-overlapping Intervals','Jump Game']],
+  ['activity-selection','6.2','Activity Selection','Greedy','Pick earliest finishing compatible activity',['Greedy','Intervals','Sorting'],['Meeting Rooms','Non-overlapping Intervals','Maximum Profit in Job Scheduling']],
+  ['fractional-knapsack','6.3','Fractional Knapsack','Greedy','Sort by value density',['Greedy','Knapsack','Sorting'],['Maximum Units on a Truck','Bag of Tokens','IPO']],
+  ['jump-game','6.4','Jump Game','Greedy','Track farthest reachable index',['Greedy','Reachability','Array'],['Jump Game','Jump Game II','Jump Game V']]
+].map(([id,num,title,section,focus,patterns,questions]) => ({id,num,title,section,focus,patterns,questions}));
+
+function storeGet(key, fallback) {
+  try { return JSON.parse(localStorage.getItem(key) || JSON.stringify(fallback)); } catch { return fallback; }
+}
+function storeSet(key, value) {
+  try { localStorage.setItem(key, JSON.stringify(value)); } catch {}
+}
+function escapeHtml(text) {
+  return String(text).replace(/[&<>"']/g, ch => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[ch]));
+}
+function slug(text) { return text.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, ''); }
+function getStatusMap() { return storeGet(STATUS_KEY, {}); }
+function getBookmarks() { return storeGet(BOOKMARK_KEY, []); }
+
+function exampleCode(topic, lang) {
+  const lower = topic.title.toLowerCase();
+  if (lower.includes('binary search')) {
+    return lang === 'js'
+      ? `function search(nums, target) {\n  let left = 0, right = nums.length - 1;\n  while (left <= right) {\n    const mid = Math.floor((left + right) / 2);\n    if (nums[mid] === target) return mid;\n    if (nums[mid] < target) left = mid + 1;\n    else right = mid - 1;\n  }\n  return -1;\n}`
+      : `def search(nums, target):\n    left, right = 0, len(nums) - 1\n    while left <= right:\n        mid = (left + right) // 2\n        if nums[mid] == target:\n            return mid\n        if nums[mid] < target:\n            left = mid + 1\n        else:\n            right = mid - 1\n    return -1`;
+  }
+  if (lower.includes('dp') || topic.section === 'Dynamic Programming') {
+    return lang === 'js'
+      ? `function solveDP(values) {\n  const n = values.length;\n  const dp = Array(n + 1).fill(0);\n  for (let i = 1; i <= n; i++) {\n    const take = values[i - 1] + (i > 1 ? dp[i - 2] : 0);\n    const skip = dp[i - 1];\n    dp[i] = Math.max(take, skip);\n  }\n  return dp[n];\n}`
+      : `def solve_dp(values):\n    n = len(values)\n    dp = [0] * (n + 1)\n    for i in range(1, n + 1):\n        take = values[i - 1] + (dp[i - 2] if i > 1 else 0)\n        skip = dp[i - 1]\n        dp[i] = max(take, skip)\n    return dp[n]`;
+  }
+  if (topic.patterns.includes('Graph') || topic.patterns.includes('BFS')) {
+    return lang === 'js'
+      ? `function bfs(graph, start) {\n  const seen = new Set([start]);\n  const queue = [start];\n  const order = [];\n  for (let head = 0; head < queue.length; head++) {\n    const node = queue[head];\n    order.push(node);\n    for (const next of graph[node] || []) {\n      if (!seen.has(next)) {\n        seen.add(next);\n        queue.push(next);\n      }\n    }\n  }\n  return order;\n}`
+      : `from collections import deque\n\ndef bfs(graph, start):\n    seen = {start}\n    queue = deque([start])\n    order = []\n    while queue:\n        node = queue.popleft()\n        order.append(node)\n        for nxt in graph.get(node, []):\n            if nxt not in seen:\n                seen.add(nxt)\n                queue.append(nxt)\n    return order`;
+  }
+  return lang === 'js'
+    ? `function solve(nums) {\n  let best = 0;\n  const seen = new Map();\n  for (let i = 0; i < nums.length; i++) {\n    const value = nums[i];\n    seen.set(value, (seen.get(value) || 0) + 1);\n    best = Math.max(best, seen.get(value));\n  }\n  return best;\n}`
+    : `def solve(nums):\n    best = 0\n    seen = {}\n    for value in nums:\n        seen[value] = seen.get(value, 0) + 1\n        best = max(best, seen[value])\n    return best`;
+}
+
+function questionCard(topic, question, idx) {
+  const difficulty = idx === 0 ? 'Easy' : idx === 1 ? 'Medium' : 'Hard';
+  const diffClass = idx === 0 ? 'diff-easy' : idx === 1 ? 'diff-medium' : 'diff-hard';
+  const solved = SOLVED_QUESTIONS.has(question) ? ' <span class="status-pill status-solved">✓ Solved</span>' : '';
+  return `<div class="lc-card" data-difficulty="${difficulty}" data-pattern="${escapeHtml(topic.patterns[0])}">
+    <div class="lc-header"><span class="lc-num">${difficulty}</span><span class="lc-title">${escapeHtml(question)}</span>${solved}<span class="lc-difficulty ${diffClass}">${difficulty}</span></div>
+    <div class="lc-body">
+      <p class="lc-problem"><strong>Problem statement:</strong> Solve the classic ${escapeHtml(question)} interview problem using ${escapeHtml(topic.patterns[0])}. Identify the input shape, required output, and constraints before coding.</p>
+      <p class="lc-problem"><strong>Pattern used:</strong> ${escapeHtml(topic.patterns.join(', '))}. Recognition trick: look for ${escapeHtml(topic.focus.toLowerCase())}, repeated decisions, sorted structure, dependency order, or a shrinking search space.</p>
+      <p class="lc-problem"><strong>Solution:</strong> Start with brute force to prove correctness, then keep only the useful state. For this topic, the optimized solution tracks ${escapeHtml(topic.focus.toLowerCase())} and updates the answer after each safe transition.</p>
+      <div class="step-trace">Dry run: sample input -> inspect first state -> apply transition -> update answer -> handle final edge case.</div>
+      <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n) typical, O(n log n) if sorting is needed</span><span class="complexity-badge space-badge">Space: O(1) to O(n)</span></div>
+      <p class="lc-problem"><strong>Important notes:</strong> Watch empty input, one-element input, duplicates, overflow, and whether the problem asks for count, value, index, or actual reconstruction.</p>
+    </div>
+  </div>`;
+}
+
+function renderTopic(topic) {
+  const status = getStatusMap()[topic.id] || 'not-started';
+  const bookmarked = getBookmarks().includes(topic.id);
+  const notes = storeGet(NOTES_KEY, {})[topic.id] || '';
+  const jsCode = escapeHtml(exampleCode(topic, 'js'));
+  const pyCode = escapeHtml(exampleCode(topic, 'py'));
+  const base = slug(topic.id);
+  return `<div class="topic-card handbook-topic" id="${topic.id}" data-title="${escapeHtml(topic.title)}" data-section="${escapeHtml(topic.section)}" data-patterns="${escapeHtml(topic.patterns.join('|'))}" data-difficulties="Easy|Medium|Hard">
+    <div class="topic-header" onclick="toggleTopic(this)">
+      <div class="topic-header-left">
+        <span class="topic-num">${escapeHtml(topic.num)}</span>
+        <div class="topic-title-wrap">
+          <h3>${escapeHtml(topic.title)}</h3>
+          <div class="topic-meta">${topic.patterns.map(p => `<span class="meta-pill">${escapeHtml(p)}</span>`).join('')}</div>
+        </div>
+      </div>
+      <button class="bookmark-btn ${bookmarked ? 'bookmarked' : ''}" onclick="toggleBookmark(event,'${topic.id}')">${bookmarked ? 'Bookmarked' : 'Bookmark'}</button>
+      <select class="status-select status-${status}" onclick="event.stopPropagation()" onchange="setTopicStatus('${topic.id}', this.value)">
+        <option value="not-started" ${status === 'not-started' ? 'selected' : ''}>Not started</option>
+        <option value="revision" ${status === 'revision' ? 'selected' : ''}>Revision needed</option>
+        <option value="solved" ${status === 'solved' ? 'selected' : ''}>Solved</option>
+      </select>
+      <button class="topic-done-btn" onclick="toggleDone(event,'${topic.id}')">Mark done</button>
+      <span class="topic-chevron">▼</span>
+    </div>
+    <div class="topic-body">
+      <div class="tab-bar">
+        <button class="tab-btn active" onclick="switchTab(this,'${base}-theory')">Theory</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-visual')">Visual</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-patterns')">Patterns</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-complexity')">Complexity</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-code')">Code</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-lc')">LeetCode</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-revision')">Revision</button>
+        <button class="tab-btn" onclick="switchTab(this,'${base}-interview')">Interview</button>
+      </div>
+      <div class="tab-pane active" id="${base}-theory">
+        <div class="mini-grid">
+          <div class="mini-card"><h4>Definition</h4><p>${escapeHtml(topic.title)} is an interview concept centered on ${escapeHtml(topic.focus.toLowerCase())}.</p></div>
+          <div class="mini-card"><h4>Why we use it</h4><p>It reduces a broad problem into a repeatable rule, data structure, or invariant that is easier to reason about under constraints.</p></div>
+          <div class="mini-card"><h4>Properties</h4><ul><li>Has a clear state or invariant.</li><li>Edge cases usually reveal correctness.</li><li>Optimized versions avoid repeated work.</li></ul></div>
+          <div class="mini-card"><h4>Advantages</h4><p>Predictable complexity, reusable recognition pattern, and clean explanation in interviews.</p></div>
+          <div class="mini-card"><h4>Disadvantages</h4><p>Easy to misuse when constraints do not match; wrong invariants lead to subtle bugs.</p></div>
+          <div class="mini-card"><h4>Real-world use cases</h4><p>Scheduling, search, routing, caching, ranking, parsing, analytics, dependency resolution, and optimization systems.</p></div>
+        </div>
+        <div class="callout callout-info"><strong>Important observations</strong> Always name the invariant, choose the smallest state that proves the answer, and test empty, single, duplicate, sorted, reversed, and maximum-size inputs.</div>
+      </div>
+      <div class="tab-pane" id="${base}-visual">
+        <p class="lc-problem">Step-by-step example for ${escapeHtml(topic.title)}:</p>
+        <div class="visual-row"><span class="visual-cell">input</span><span class="visual-cell">state</span><span class="visual-cell">choice</span><span class="visual-cell">update</span><span class="visual-cell">answer</span></div>
+        <div class="step-trace">Trace: initialize state -> read next item -> compare with invariant -> update best/queue/stack/dp -> continue until all states are processed.</div>
+        <div class="visual-row"><span class="visual-node">A</span><span class="step-arrow">-></span><span class="visual-node">B</span><span class="step-arrow">-></span><span class="visual-node">C</span><span class="step-arrow">-></span><span class="visual-node">D</span></div>
+        <p class="lc-problem"><strong>Memory visualization:</strong> Keep arrays for indexed states, maps for lookup counts, stacks for unresolved candidates, queues for BFS layers, and recursion frames for DFS/backtracking.</p>
+      </div>
+      <div class="tab-pane" id="${base}-patterns">
+        <div class="pattern-grid">
+          ${topic.patterns.map(p => `<div class="pattern-card"><h4>${escapeHtml(p)}</h4><p>Use when the prompt hints at ${escapeHtml(topic.focus.toLowerCase())}, repeated checks, ordered decisions, or a need to preserve only useful candidates.</p></div>`).join('')}
+          <div class="pattern-card"><h4>Recognition trick</h4><p>Ask: What changes after one move? What stays true? Can I discard part of the search space?</p></div>
+          <div class="pattern-card"><h4>Common mistakes</h4><p>Off-by-one bounds, mutating shared state, missing base cases, and returning the wrong representation.</p></div>
+          <div class="pattern-card"><h4>Edge cases</h4><p>Empty input, one element, duplicates, negative numbers, disconnected graphs, impossible states, and large constraints.</p></div>
+        </div>
+      </div>
+      <div class="tab-pane" id="${base}-complexity">
+        <table class="complexity-table"><tr><th>Case</th><th>Time</th><th>Space</th><th>When</th></tr><tr><td>Best</td><td class="o-one">O(1) / O(log n)</td><td class="o-one">O(1)</td><td>Early exit or direct lookup</td></tr><tr><td>Average</td><td class="o-n">O(n)</td><td>O(1) to O(n)</td><td>Single scan or maintained state</td></tr><tr><td>Worst</td><td class="o-n2">O(n log n) / O(n^2)</td><td>O(n)</td><td>Sorting, nested choices, or dense states</td></tr></table>
+      </div>
+      <div class="tab-pane" id="${base}-code">
+        <div class="code-wrap"><div class="code-header"><span class="code-lang">JavaScript</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre>${jsCode}</pre></div>
+        <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div><pre>${pyCode}</pre></div>
+        <div class="callout callout-tip"><strong>Line-by-line explanation</strong> Initialize state, iterate through valid candidates, apply the invariant or transition, update the answer, then return the final state. It works because every step preserves the invariant and no discarded state can improve the answer.</div>
+      </div>
+      <div class="tab-pane" id="${base}-lc">${topic.questions.map((q, i) => questionCard(topic, q, i)).join('')}</div>
+      <div class="tab-pane" id="${base}-revision">
+        <div class="mini-grid">
+          <div class="mini-card"><h4>Quick formulas</h4><p>State + transition + base case + traversal order + answer cell.</p></div>
+          <div class="mini-card"><h4>Common tricks</h4><p>Sort first, use sentinels, cache repeated work, compress state, and convert recursion to iteration when needed.</p></div>
+          <div class="mini-card"><h4>Interview reminders</h4><p>Say brute force first, identify bottleneck, state invariant, then optimize.</p></div>
+          <div class="mini-card flashcard" onclick="this.classList.toggle('flipped')"><h4>Flashcard</h4><p>How do you recognize ${escapeHtml(topic.title)}?</p><p class="answer">Look for ${escapeHtml(topic.focus.toLowerCase())} and constraints that reward ${escapeHtml(topic.patterns[0])}.</p></div>
+        </div>
+        <textarea class="notes-area" placeholder="Personal notes for ${escapeHtml(topic.title)}..." oninput="saveTopicNote('${topic.id}', this.value)">${escapeHtml(notes)}</textarea>
+      </div>
+      <div class="tab-pane" id="${base}-interview">
+        <div class="callout callout-warn"><strong>Most frequently asked</strong> Explain the brute force, identify repeated work or wasted scans, then show how ${escapeHtml(topic.patterns[0])} improves it.</div>
+        <ul>
+          <li><strong>Common traps:</strong> wrong loop bounds, forgotten impossible case, hidden duplicates, and failing to justify correctness.</li>
+          <li><strong>Follow-ups:</strong> return actual path/subsequence, reduce memory, support streaming input, or handle weighted data.</li>
+          <li><strong>Optimization discussion:</strong> brute force -> sort/precompute/cache -> maintain invariant -> prove no better candidate is discarded.</li>
+        </ul>
+      </div>
+    </div>
+  </div>`;
+}
+
+function buildHandbook() {
+  const target = document.getElementById('extendedHandbook');
+  if (!target) return;
+  target.innerHTML = HANDBOOK_TOPICS.map(renderTopic).join('');
+  const nav = document.getElementById('sidebarNav');
+  const sections = {};
+  HANDBOOK_TOPICS.forEach(t => {
+    if (!sections[t.section]) sections[t.section] = [];
+    sections[t.section].push(t);
+  });
+  Object.entries(sections).forEach(([section, topics]) => {
+    const label = document.createElement('div');
+    label.className = 'nav-section-label';
+    label.textContent = section;
+    nav.appendChild(label);
+    topics.forEach(t => {
+      const a = document.createElement('a');
+      a.className = 'nav-item';
+      a.href = `#${t.id}`;
+      a.dataset.topic = t.id;
+      a.innerHTML = `<span class="nav-dot dot-algo"></span>${escapeHtml(t.title)}`;
+      nav.appendChild(a);
+    });
+  });
+  TOPICS.push(...HANDBOOK_TOPICS.map(t => t.id));
+  populatePatternFilter();
+  updateNavDone();
+}
+
+function populatePatternFilter() {
+  const select = document.getElementById('patternFilter');
+  if (!select) return;
+  [...new Set(HANDBOOK_TOPICS.flatMap(t => t.patterns))].sort().forEach(pattern => {
+    const option = document.createElement('option');
+    option.value = pattern;
+    option.textContent = pattern;
+    select.appendChild(option);
+  });
+}
+
+function setTopicStatus(id, status) {
+  const map = getStatusMap();
+  map[id] = status;
+  storeSet(STATUS_KEY, map);
+  const card = document.getElementById(id);
+  const select = card?.querySelector('.status-select');
+  if (select) select.className = `status-select status-${status}`;
+  applyStudyFilters();
+}
+function toggleBookmark(e, id) {
+  e.stopPropagation();
+  const bookmarks = getBookmarks();
+  const idx = bookmarks.indexOf(id);
+  if (idx >= 0) bookmarks.splice(idx, 1); else bookmarks.push(id);
+  storeSet(BOOKMARK_KEY, bookmarks);
+  const btn = e.target;
+  btn.classList.toggle('bookmarked', idx < 0);
+  btn.textContent = idx < 0 ? 'Bookmarked' : 'Bookmark';
+  applyStudyFilters();
+}
+function saveTopicNote(id, value) {
+  const notes = storeGet(NOTES_KEY, {});
+  notes[id] = value;
+  storeSet(NOTES_KEY, notes);
+}
+function applyStudyFilters() {
+  const q = document.getElementById('searchInput')?.value.toLowerCase() || '';
+  const difficulty = document.getElementById('difficultyFilter')?.value || '';
+  const pattern = document.getElementById('patternFilter')?.value || '';
+  const status = document.getElementById('statusFilter')?.value || '';
+  const bookmarksOnly = document.getElementById('bookmarkFilter')?.classList.contains('active');
+  const statuses = getStatusMap();
+  const bookmarks = getBookmarks();
+  document.querySelectorAll('.topic-card').forEach(card => {
+    const text = card.textContent.toLowerCase();
+    const cardPatterns = card.dataset.patterns || '';
+    const cardDiffs = card.dataset.difficulties || '';
+    const id = card.id;
+    const okSearch = !q || text.includes(q);
+    const okDifficulty = !difficulty || cardDiffs.includes(difficulty) || text.includes(difficulty.toLowerCase());
+    const okPattern = !pattern || cardPatterns.includes(pattern) || text.includes(pattern.toLowerCase());
+    const okStatus = !status || (statuses[id] || 'not-started') === status || (status === 'solved' && getDone().includes(id));
+    const okBookmark = !bookmarksOnly || bookmarks.includes(id);
+    card.style.display = okSearch && okDifficulty && okPattern && okStatus && okBookmark ? '' : 'none';
+  });
+}
+function randomQuestion() {
+  const all = HANDBOOK_TOPICS.flatMap(t => t.questions.map(q => ({topic: t.title, question: q, pattern: t.patterns[0]})));
+  const pick = all[Math.floor(Math.random() * all.length)];
+  document.getElementById('practiceOutput').textContent = `${pick.question} | Topic: ${pick.topic} | Pattern: ${pick.pattern}`;
+}
+function markDailyPractice() {
+  const today = new Date().toISOString().slice(0, 10);
+  const days = storeGet(DAILY_KEY, []);
+  if (!days.includes(today)) days.push(today);
+  storeSet(DAILY_KEY, days);
+  document.getElementById('practiceOutput').textContent = `Daily practice marked for ${today}. Total practice days: ${days.length}.`;
+}
+function wireStudyTools() {
+  document.getElementById('themeToggle')?.addEventListener('click', e => {
+    document.body.classList.toggle('light-mode');
+    e.target.textContent = document.body.classList.contains('light-mode') ? 'Dark mode' : 'Light mode';
+  });
+  document.getElementById('expandAllBtn')?.addEventListener('click', () => document.querySelectorAll('.topic-card').forEach(c => c.classList.add('open')));
+  document.getElementById('collapseAllBtn')?.addEventListener('click', () => document.querySelectorAll('.topic-card').forEach(c => c.classList.remove('open')));
+  document.getElementById('revisionModeBtn')?.addEventListener('click', e => { document.body.classList.toggle('revision-mode'); e.target.classList.toggle('active'); });
+  document.getElementById('interviewModeBtn')?.addEventListener('click', e => { document.body.classList.toggle('interview-mode'); e.target.classList.toggle('active'); });
+  document.getElementById('printBtn')?.addEventListener('click', () => window.print());
+  document.getElementById('pdfBtn')?.addEventListener('click', () => window.print());
+  document.getElementById('randomQuestionBtn')?.addEventListener('click', randomQuestion);
+  document.getElementById('dailyPracticeBtn')?.addEventListener('click', markDailyPractice);
+  ['difficultyFilter','patternFilter','statusFilter'].forEach(id => document.getElementById(id)?.addEventListener('change', applyStudyFilters));
+  document.getElementById('bookmarkFilter')?.addEventListener('click', e => { e.target.classList.toggle('active'); applyStudyFilters(); });
+  document.getElementById('searchInput')?.addEventListener('input', applyStudyFilters);
+}
+
 // Init
+buildHandbook();
+wireStudyTools();
 updateProgress();
 updateNavDone();
 </script>
