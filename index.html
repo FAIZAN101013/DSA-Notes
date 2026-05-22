@@ -1,0 +1,2335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DSA Study Guide — Data Structures & Algorithms</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0c10;
+    --bg2: #0f1117;
+    --bg3: #141720;
+    --bg4: #1a1e2e;
+    --surface: #1e2235;
+    --surface2: #252a3d;
+    --border: rgba(255,255,255,0.07);
+    --border2: rgba(255,255,255,0.12);
+    --text: #e8eaf0;
+    --text2: #9ca3b0;
+    --text3: #6b7280;
+    --accent: #6c63ff;
+    --accent2: #8b83ff;
+    --accent3: rgba(108,99,255,0.15);
+    --teal: #2dd4bf;
+    --teal2: rgba(45,212,191,0.12);
+    --amber: #f59e0b;
+    --amber2: rgba(245,158,11,0.12);
+    --coral: #f87171;
+    --coral2: rgba(248,113,113,0.12);
+    --green: #4ade80;
+    --green2: rgba(74,222,128,0.1);
+    --pink: #f472b6;
+    --font-display: 'Syne', sans-serif;
+    --font-body: 'DM Sans', sans-serif;
+    --font-mono: 'JetBrains Mono', monospace;
+    --radius: 8px;
+    --radius-lg: 14px;
+    --radius-xl: 20px;
+    --sidebar-w: 280px;
+    --transition: 0.2s ease;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--bg);
+    color: var(--text);
+    display: flex;
+    min-height: 100vh;
+    line-height: 1.7;
+    font-size: 15px;
+  }
+
+  /* ── SIDEBAR ── */
+  #sidebar {
+    width: var(--sidebar-w);
+    min-height: 100vh;
+    background: var(--bg2);
+    border-right: 1px solid var(--border);
+    position: fixed;
+    top: 0; left: 0;
+    display: flex;
+    flex-direction: column;
+    z-index: 100;
+    overflow-y: auto;
+  }
+
+  .sidebar-logo {
+    padding: 24px 20px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .sidebar-logo h1 {
+    font-family: var(--font-display);
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.3px;
+    line-height: 1.3;
+  }
+  .sidebar-logo span {
+    display: inline-block;
+    margin-top: 6px;
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-mono);
+  }
+
+  .sidebar-progress {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .progress-label {
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    text-transform: uppercase;
+  }
+  .progress-bar-wrap {
+    background: var(--surface);
+    border-radius: 99px;
+    height: 4px;
+    overflow: hidden;
+  }
+  .progress-bar {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent), var(--teal));
+    border-radius: 99px;
+    width: 0%;
+    transition: width 0.4s ease;
+  }
+  .progress-count {
+    font-size: 11px;
+    color: var(--text3);
+    margin-top: 6px;
+    font-family: var(--font-mono);
+  }
+
+  .sidebar-search {
+    padding: 14px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .search-wrap {
+    position: relative;
+  }
+  .search-wrap input {
+    width: 100%;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 8px 12px 8px 32px;
+    color: var(--text);
+    font-size: 13px;
+    font-family: var(--font-body);
+    outline: none;
+    transition: border-color var(--transition);
+  }
+  .search-wrap input:focus { border-color: var(--accent); }
+  .search-wrap input::placeholder { color: var(--text3); }
+  .search-icon {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: var(--text3);
+    font-size: 14px;
+  }
+
+  .sidebar-nav { padding: 12px 0; flex: 1; }
+
+  .nav-section-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--text3);
+    padding: 10px 20px 5px;
+    font-family: var(--font-mono);
+  }
+
+  .nav-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 7px 20px;
+    font-size: 13px;
+    color: var(--text2);
+    cursor: pointer;
+    transition: all var(--transition);
+    border-left: 2px solid transparent;
+    text-decoration: none;
+  }
+  .nav-item:hover {
+    color: var(--text);
+    background: var(--accent3);
+    border-left-color: var(--accent);
+  }
+  .nav-item.active {
+    color: var(--accent2);
+    background: var(--accent3);
+    border-left-color: var(--accent);
+    font-weight: 500;
+  }
+  .nav-item.done { color: var(--teal); }
+  .nav-item.done::after {
+    content: '✓';
+    margin-left: auto;
+    font-size: 11px;
+    opacity: 0.7;
+  }
+  .nav-badge {
+    margin-left: auto;
+    font-size: 9px;
+    padding: 2px 6px;
+    border-radius: 99px;
+    background: linear-gradient(135deg, var(--accent), var(--pink));
+    color: #fff;
+    font-weight: 600;
+    font-family: var(--font-mono);
+    letter-spacing: 0.5px;
+  }
+  .nav-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .dot-math { background: var(--amber); }
+  .dot-ds { background: var(--teal); }
+  .dot-algo { background: var(--accent2); }
+  .dot-dp { background: var(--pink); }
+  .dot-greedy { background: var(--green); }
+
+  .sidebar-footer {
+    padding: 14px 20px;
+    border-top: 1px solid var(--border);
+    font-size: 11px;
+    color: var(--text3);
+  }
+  .kbd {
+    display: inline-block;
+    padding: 1px 5px;
+    border: 1px solid var(--border2);
+    border-radius: 4px;
+    font-family: var(--font-mono);
+    font-size: 10px;
+    color: var(--text2);
+    background: var(--surface);
+  }
+
+  /* ── MAIN ── */
+  #main {
+    margin-left: var(--sidebar-w);
+    flex: 1;
+    min-height: 100vh;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    background: var(--bg2);
+    border-bottom: 1px solid var(--border);
+    padding: 60px 60px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 80% 50%, rgba(108,99,255,0.08) 0%, transparent 70%),
+                radial-gradient(ellipse at 20% 80%, rgba(45,212,191,0.05) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .hero-eyebrow {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    color: var(--accent2);
+    font-family: var(--font-mono);
+    margin-bottom: 16px;
+  }
+  .hero h1 {
+    font-family: var(--font-display);
+    font-size: 48px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -1.5px;
+    color: var(--text);
+    margin-bottom: 16px;
+  }
+  .hero h1 em {
+    font-style: normal;
+    background: linear-gradient(135deg, var(--accent2), var(--teal));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+  .hero p {
+    font-size: 16px;
+    color: var(--text2);
+    max-width: 560px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+  }
+  .hero-stats {
+    display: flex;
+    gap: 32px;
+    flex-wrap: wrap;
+  }
+  .stat {
+    display: flex;
+    flex-direction: column;
+  }
+  .stat-num {
+    font-family: var(--font-display);
+    font-size: 28px;
+    font-weight: 700;
+    color: var(--text);
+  }
+  .stat-label {
+    font-size: 12px;
+    color: var(--text3);
+    letter-spacing: 0.3px;
+  }
+  .hero-tags {
+    display: flex;
+    gap: 8px;
+    margin-top: 24px;
+    flex-wrap: wrap;
+  }
+  .tag {
+    padding: 5px 12px;
+    border-radius: 99px;
+    font-size: 12px;
+    font-weight: 500;
+    border: 1px solid;
+    cursor: default;
+  }
+  .tag-math { background: var(--amber2); border-color: rgba(245,158,11,0.3); color: var(--amber); }
+  .tag-ds { background: var(--teal2); border-color: rgba(45,212,191,0.3); color: var(--teal); }
+  .tag-algo { background: var(--accent3); border-color: rgba(108,99,255,0.3); color: var(--accent2); }
+  .tag-dp { background: rgba(244,114,182,0.1); border-color: rgba(244,114,182,0.3); color: var(--pink); }
+  .tag-greedy { background: var(--green2); border-color: rgba(74,222,128,0.3); color: var(--green); }
+
+  /* ── CONTENT ── */
+  .content { padding: 48px 60px; max-width: 900px; }
+
+  /* SECTION HEADERS */
+  .section-group {
+    margin-bottom: 64px;
+  }
+  .section-header {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    margin-bottom: 32px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid var(--border);
+  }
+  .section-icon {
+    width: 40px; height: 40px;
+    border-radius: var(--radius);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+    flex-shrink: 0;
+  }
+  .icon-math { background: var(--amber2); }
+  .icon-ds { background: var(--teal2); }
+  .icon-algo { background: var(--accent3); }
+  .icon-dp { background: rgba(244,114,182,0.12); }
+  .icon-greedy { background: var(--green2); }
+
+  .section-header h2 {
+    font-family: var(--font-display);
+    font-size: 26px;
+    font-weight: 700;
+    color: var(--text);
+    letter-spacing: -0.5px;
+  }
+  .section-header .section-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    display: block;
+  }
+
+  /* TOPIC CARDS */
+  .topic-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    margin-bottom: 28px;
+    overflow: hidden;
+    transition: border-color var(--transition);
+  }
+  .topic-card:hover { border-color: var(--border2); }
+
+  .topic-header {
+    padding: 22px 28px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    transition: background var(--transition);
+    user-select: none;
+  }
+  .topic-header:hover { background: rgba(255,255,255,0.02); }
+  .topic-header-left {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+  }
+  .topic-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    width: 28px;
+  }
+  .topic-title-wrap h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    color: var(--text);
+    letter-spacing: -0.3px;
+  }
+  .topic-meta {
+    display: flex;
+    gap: 10px;
+    margin-top: 4px;
+    flex-wrap: wrap;
+  }
+  .meta-pill {
+    font-size: 11px;
+    padding: 2px 8px;
+    border-radius: 99px;
+    border: 1px solid var(--border);
+    color: var(--text3);
+    font-family: var(--font-mono);
+  }
+  .topic-chevron {
+    color: var(--text3);
+    font-size: 18px;
+    transition: transform var(--transition);
+    flex-shrink: 0;
+  }
+  .topic-card.open .topic-chevron { transform: rotate(180deg); }
+  .topic-done-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 5px 12px;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    color: var(--text3);
+    cursor: pointer;
+    transition: all var(--transition);
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+  .topic-done-btn:hover { border-color: var(--teal); color: var(--teal); }
+  .topic-done-btn.done { border-color: var(--teal); color: var(--teal); background: var(--teal2); }
+
+  .topic-body {
+    display: none;
+    padding: 0 28px 28px;
+    border-top: 1px solid var(--border);
+  }
+  .topic-card.open .topic-body { display: block; }
+
+  /* TABS within topic */
+  .tab-bar {
+    display: flex;
+    gap: 0;
+    margin: 22px 0 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .tab-btn {
+    padding: 8px 16px;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text3);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    cursor: pointer;
+    transition: all var(--transition);
+    font-family: var(--font-body);
+    margin-bottom: -1px;
+  }
+  .tab-btn:hover { color: var(--text2); }
+  .tab-btn.active { color: var(--accent2); border-bottom-color: var(--accent); }
+  .tab-pane { display: none; }
+  .tab-pane.active { display: block; }
+
+  /* CONTENT BLOCKS */
+  .theory-block p, .example-block p { 
+    color: var(--text2); 
+    line-height: 1.75; 
+    margin-bottom: 12px;
+    font-size: 14.5px;
+  }
+  .theory-block ul, .theory-block ol,
+  .example-block ul, .example-block ol {
+    padding-left: 20px;
+    margin-bottom: 14px;
+  }
+  .theory-block li, .example-block li {
+    color: var(--text2);
+    font-size: 14.5px;
+    margin-bottom: 5px;
+    line-height: 1.6;
+  }
+  strong { color: var(--text); font-weight: 500; }
+
+  /* COMPLEXITY TABLE */
+  .complexity-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 16px 0;
+    font-size: 13px;
+  }
+  .complexity-table th {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text3);
+    letter-spacing: 0.5px;
+    text-align: left;
+    padding: 8px 12px;
+    background: var(--surface);
+    border: 1px solid var(--border);
+  }
+  .complexity-table td {
+    padding: 8px 12px;
+    border: 1px solid var(--border);
+    color: var(--text2);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+  }
+  .complexity-table tr:nth-child(even) td { background: rgba(255,255,255,0.02); }
+  .o-one { color: var(--green); }
+  .o-log { color: var(--teal); }
+  .o-n { color: var(--amber); }
+  .o-n2 { color: var(--coral); }
+
+  /* CODE BLOCKS */
+  .code-wrap {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin: 16px 0;
+    overflow: hidden;
+  }
+  .code-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(255,255,255,0.03);
+  }
+  .code-lang {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    color: var(--text3);
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+  }
+  .copy-btn {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 5px;
+    padding: 3px 10px;
+    font-size: 11px;
+    color: var(--text3);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    transition: all var(--transition);
+  }
+  .copy-btn:hover { border-color: var(--accent); color: var(--accent2); }
+  .copy-btn.copied { border-color: var(--teal); color: var(--teal); }
+  pre {
+    margin: 0;
+    padding: 18px 20px;
+    overflow-x: auto;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.65;
+    color: #cdd6f4;
+  }
+  .kw { color: #cba6f7; }
+  .fn { color: #89b4fa; }
+  .st { color: #a6e3a1; }
+  .cm { color: #6c7086; font-style: italic; }
+  .nm { color: #fab387; }
+  .op { color: #89dceb; }
+
+  /* CALLOUT BOXES */
+  .callout {
+    border-radius: var(--radius-lg);
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-left: 3px solid;
+    font-size: 14px;
+    line-height: 1.65;
+  }
+  .callout-info { background: rgba(108,99,255,0.08); border-color: var(--accent); color: var(--text2); }
+  .callout-tip { background: var(--teal2); border-color: var(--teal); color: var(--text2); }
+  .callout-warn { background: var(--amber2); border-color: var(--amber); color: var(--text2); }
+  .callout-success { background: var(--green2); border-color: var(--green); color: var(--text2); }
+  .callout strong { display: block; margin-bottom: 5px; font-size: 12px; letter-spacing: 0.5px; text-transform: uppercase; font-family: var(--font-mono); }
+
+  /* STEP TRACE */
+  .step-trace {
+    background: #0d1117;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 18px 20px;
+    margin: 16px 0;
+    font-family: var(--font-mono);
+    font-size: 13px;
+    line-height: 1.8;
+    color: #cdd6f4;
+    overflow-x: auto;
+  }
+  .step-trace .step-arrow { color: var(--teal); }
+  .step-trace .step-result { color: var(--green); }
+  .step-trace .step-comment { color: #6c7086; }
+
+  /* LEETCODE CARD */
+  .lc-card {
+    background: var(--bg3);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    margin: 18px 0;
+    overflow: hidden;
+  }
+  .lc-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 18px;
+    border-bottom: 1px solid var(--border);
+  }
+  .lc-num {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 3px 8px;
+    background: var(--accent3);
+    border: 1px solid rgba(108,99,255,0.3);
+    border-radius: 5px;
+    color: var(--accent2);
+  }
+  .lc-title {
+    font-weight: 500;
+    color: var(--text);
+    font-size: 14px;
+  }
+  .lc-difficulty {
+    margin-left: auto;
+    font-size: 11px;
+    font-family: var(--font-mono);
+    padding: 2px 8px;
+    border-radius: 99px;
+  }
+  .diff-easy { background: var(--green2); color: var(--green); border: 1px solid rgba(74,222,128,0.3); }
+  .diff-medium { background: var(--amber2); color: var(--amber); border: 1px solid rgba(245,158,11,0.3); }
+  .diff-hard { background: var(--coral2); color: var(--coral); border: 1px solid rgba(248,113,113,0.3); }
+  .lc-body { padding: 16px 18px; }
+  .lc-problem {
+    color: var(--text2);
+    font-size: 13.5px;
+    margin-bottom: 14px;
+    line-height: 1.65;
+  }
+  .lc-complexity {
+    display: flex;
+    gap: 10px;
+    margin-top: 14px;
+    flex-wrap: wrap;
+  }
+  .complexity-badge {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 5px;
+    border: 1px solid var(--border);
+  }
+  .time-badge { background: var(--teal2); border-color: rgba(45,212,191,0.3); color: var(--teal); }
+  .space-badge { background: rgba(244,114,182,0.1); border-color: rgba(244,114,182,0.3); color: var(--pink); }
+
+  /* PATTERN GRID */
+  .pattern-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 12px;
+    margin: 16px 0;
+  }
+  .pattern-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg);
+    padding: 14px 16px;
+  }
+  .pattern-card h4 {
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--text);
+    margin-bottom: 6px;
+    font-family: var(--font-display);
+  }
+  .pattern-card p {
+    font-size: 12px;
+    color: var(--text3);
+    line-height: 1.5;
+  }
+
+  /* BIG-O REFERENCE */
+  .bigo-section {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-xl);
+    padding: 28px;
+    margin-bottom: 28px;
+  }
+  .bigo-section h3 {
+    font-family: var(--font-display);
+    font-size: 18px;
+    font-weight: 600;
+    margin-bottom: 18px;
+    color: var(--text);
+  }
+
+  /* IMPORTANT BADGE */
+  .important-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    padding: 3px 10px;
+    border-radius: 99px;
+    background: linear-gradient(135deg, rgba(244,114,182,0.2), rgba(108,99,255,0.2));
+    border: 1px solid rgba(244,114,182,0.4);
+    color: var(--pink);
+    font-family: var(--font-mono);
+    font-weight: 600;
+    letter-spacing: 0.5px;
+  }
+
+  /* MOBILE TOGGLE */
+  .mobile-toggle {
+    display: none;
+    position: fixed;
+    top: 16px; left: 16px;
+    z-index: 200;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: var(--radius);
+    width: 40px; height: 40px;
+    align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--text);
+    font-size: 18px;
+  }
+
+  /* BACK TO TOP */
+  #back-top {
+    position: fixed;
+    bottom: 28px; right: 28px;
+    background: var(--surface);
+    border: 1px solid var(--border2);
+    border-radius: 50%;
+    width: 42px; height: 42px;
+    display: flex; align-items: center; justify-content: center;
+    cursor: pointer;
+    color: var(--text2);
+    font-size: 18px;
+    opacity: 0;
+    transition: opacity var(--transition), background var(--transition);
+    z-index: 50;
+  }
+  #back-top.visible { opacity: 1; }
+  #back-top:hover { background: var(--accent3); color: var(--accent2); }
+
+  h4 { font-family: var(--font-display); font-weight: 600; color: var(--text); }
+
+  @media (max-width: 860px) {
+    #sidebar { transform: translateX(-100%); transition: transform var(--transition); }
+    #sidebar.open { transform: translateX(0); }
+    #main { margin-left: 0; }
+    .mobile-toggle { display: flex; }
+    .hero { padding: 60px 24px 40px; }
+    .hero h1 { font-size: 32px; }
+    .content { padding: 32px 24px; }
+  }
+</style>
+</head>
+<body>
+
+<button class="mobile-toggle" id="menuToggle" aria-label="Toggle menu">☰</button>
+
+<aside id="sidebar">
+  <div class="sidebar-logo">
+    <h1>DSA Study Guide</h1>
+    <span>Revision + Practice</span>
+  </div>
+  <div class="sidebar-progress">
+    <div class="progress-label">Your progress</div>
+    <div class="progress-bar-wrap"><div class="progress-bar" id="progressBar"></div></div>
+    <div class="progress-count" id="progressCount">0 / 13 topics</div>
+  </div>
+  <div class="sidebar-search">
+    <div class="search-wrap">
+      <span class="search-icon">🔍</span>
+      <input type="text" id="searchInput" placeholder="Search topics..." autocomplete="off">
+    </div>
+  </div>
+  <nav class="sidebar-nav" id="sidebarNav">
+    <div class="nav-section-label">Foundational Math</div>
+    <a class="nav-item" href="#lcm" data-topic="lcm"><span class="nav-dot dot-math"></span>LCM — Least Common Multiple</a>
+    <a class="nav-item" href="#gcd" data-topic="gcd"><span class="nav-dot dot-math"></span>GCD — Greatest Common Divisor</a>
+    <a class="nav-item" href="#math-misc" data-topic="math-misc"><span class="nav-dot dot-math"></span>Primes, Modular, Bit Tricks</a>
+
+    <div class="nav-section-label">Data Structures</div>
+    <a class="nav-item" href="#arrays" data-topic="arrays"><span class="nav-dot dot-ds"></span>Arrays</a>
+    <a class="nav-item" href="#linked-lists" data-topic="linked-lists"><span class="nav-dot dot-ds"></span>Linked Lists</a>
+    <a class="nav-item" href="#stacks" data-topic="stacks"><span class="nav-dot dot-ds"></span>Stacks</a>
+    <a class="nav-item" href="#queues" data-topic="queues"><span class="nav-dot dot-ds"></span>Queues</a>
+    <a class="nav-item" href="#hashing" data-topic="hashing"><span class="nav-dot dot-ds"></span>Hashing</a>
+
+    <div class="nav-section-label">Algorithms</div>
+    <a class="nav-item" href="#recursion" data-topic="recursion"><span class="nav-dot dot-algo"></span>Recursion</a>
+    <a class="nav-item" href="#searching" data-topic="searching"><span class="nav-dot dot-algo"></span>Searching</a>
+    <a class="nav-item" href="#sorting" data-topic="sorting"><span class="nav-dot dot-algo"></span>Sorting</a>
+    <a class="nav-item" href="#dp" data-topic="dp"><span class="nav-dot dot-dp"></span>Dynamic Programming <span class="nav-badge">⭐ KEY</span></a>
+    <a class="nav-item" href="#greedy" data-topic="greedy"><span class="nav-dot dot-greedy"></span>Greedy Algorithms <span class="nav-badge">⭐ KEY</span></a>
+
+    <div class="nav-section-label">Reference</div>
+    <a class="nav-item" href="#cheatsheet" data-topic="cheatsheet"><span class="nav-dot dot-algo"></span>Big-O Cheat Sheet</a>
+  </nav>
+  <div class="sidebar-footer">
+    <span class="kbd">K</span> search &nbsp;·&nbsp; <span class="kbd">↑↓</span> navigate
+  </div>
+</aside>
+
+<main id="main">
+  <!-- HERO -->
+  <section class="hero">
+    <div class="hero-eyebrow">Complete Study Guide · 2025</div>
+    <h1>Data Structures<br>&amp; <em>Algorithms</em></h1>
+    <p>A structured, topic-by-topic revision guide covering theory, worked examples, patterns, and LeetCode solutions — built for interview prep and deep understanding.</p>
+    <div class="hero-stats">
+      <div class="stat"><span class="stat-num">13</span><span class="stat-label">Topics covered</span></div>
+      <div class="stat"><span class="stat-num">25+</span><span class="stat-label">LeetCode solutions</span></div>
+      <div class="stat"><span class="stat-num">40+</span><span class="stat-label">Code examples</span></div>
+      <div class="stat"><span class="stat-num">5</span><span class="stat-label">Algorithm categories</span></div>
+    </div>
+    <div class="hero-tags">
+      <span class="tag tag-math">Foundational Math</span>
+      <span class="tag tag-ds">Data Structures</span>
+      <span class="tag tag-algo">Algorithms</span>
+      <span class="tag tag-dp">Dynamic Programming ⭐</span>
+      <span class="tag tag-greedy">Greedy ⭐</span>
+    </div>
+  </section>
+
+  <!-- CONTENT -->
+  <div class="content">
+
+    <!-- ══ SECTION 1: MATH ══ -->
+    <div class="section-group" id="math-section">
+      <div class="section-header">
+        <div class="section-icon icon-math">🔢</div>
+        <div>
+          <span class="section-num">Section 01</span>
+          <h2>Foundational Math Concepts</h2>
+        </div>
+      </div>
+
+      <!-- LCM -->
+      <div class="topic-card" id="lcm">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">1.1</span>
+            <div class="topic-title-wrap">
+              <h3>LCM — Least Common Multiple</h3>
+              <div class="topic-meta">
+                <span class="meta-pill">Math</span>
+                <span class="meta-pill">Formula-based</span>
+              </div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'lcm')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'lcm-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'lcm-example')">Example</button>
+            <button class="tab-btn" onclick="switchTab(this,'lcm-patterns')">Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'lcm-lc')">LeetCode</button>
+          </div>
+
+          <div class="tab-pane active" id="lcm-theory">
+            <div class="theory-block">
+              <p>The <strong>Least Common Multiple (LCM)</strong> of two integers <code>a</code> and <code>b</code> is the <strong>smallest positive integer</strong> that is exactly divisible by both <code>a</code> and <code>b</code>.</p>
+              <p><strong>Key Properties:</strong></p>
+              <ul>
+                <li><code>LCM(a, b) = (a × b) / GCD(a, b)</code> — the most efficient formula</li>
+                <li><code>LCM(a, b) = LCM(b, a)</code> — commutative property</li>
+                <li><code>LCM(n, 1) = n</code> for any integer n</li>
+                <li>If one number divides the other, LCM = the larger number</li>
+              </ul>
+              <p><strong>Use Cases:</strong> Synchronization problems, finding common denominators in fractions, scheduling tasks (when do two recurring events next align).</p>
+              <div class="callout callout-warn">
+                <strong>Overflow Warning</strong>
+                When computing <code>a × b</code>, large values can overflow. Use <code>a // GCD(a,b) * b</code> instead to divide first.
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="lcm-example">
+            <div class="example-block">
+              <p><strong>Problem:</strong> Find LCM(12, 18).</p>
+              <div class="step-trace">
+Step 1: Find GCD(12, 18) using Euclidean algorithm<br>
+&nbsp;&nbsp;<span class="step-arrow">→</span> 18 = 12 × 1 + 6  &nbsp;<span class="step-comment">// remainder = 6</span><br>
+&nbsp;&nbsp;<span class="step-arrow">→</span> 12 = 6 × 2 + 0   &nbsp;<span class="step-comment">// remainder = 0, stop</span><br>
+&nbsp;&nbsp;<span class="step-arrow">→</span> GCD(12, 18) = <span class="step-result">6</span><br>
+<br>
+Step 2: Apply formula<br>
+&nbsp;&nbsp;<span class="step-arrow">→</span> LCM = (12 × 18) / 6 = 216 / 6 = <span class="step-result">36</span><br>
+<br>
+Verify: 36 / 12 = 3 ✓ &nbsp; 36 / 18 = 2 ✓
+              </div>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="lcm-patterns">
+            <div class="pattern-grid">
+              <div class="pattern-card">
+                <h4>LCM via GCD</h4>
+                <p>Always use <code>a*b//gcd(a,b)</code> — never list multiples manually.</p>
+              </div>
+              <div class="pattern-card">
+                <h4>LCM of Array</h4>
+                <p>Chain it: <code>LCM(a,b,c) = LCM(LCM(a,b), c)</code> using reduce.</p>
+              </div>
+              <div class="pattern-card">
+                <h4>Overflow-safe</h4>
+                <p>Compute <code>a // gcd(a,b) * b</code> to avoid intermediate overflow.</p>
+              </div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kw">import</span> math
+<span class="kw">from</span> functools <span class="kw">import</span> reduce
+
+<span class="kw">def</span> <span class="fn">lcm</span>(a, b):
+    <span class="kw">return</span> a * b <span class="op">//</span> math.gcd(a, b)
+
+<span class="cm"># LCM of an entire list</span>
+<span class="kw">def</span> <span class="fn">lcm_list</span>(nums):
+    <span class="kw">return</span> reduce(lcm, nums)
+
+<span class="cm"># Example</span>
+print(lcm(<span class="nm">12</span>, <span class="nm">18</span>))       <span class="cm"># 36</span>
+print(lcm_list([<span class="nm">4</span>,<span class="nm">6</span>,<span class="nm">10</span>])) <span class="cm"># 60</span></pre>
+            </div>
+          </div>
+
+          <div class="tab-pane" id="lcm-lc">
+            <div class="lc-card">
+              <div class="lc-header">
+                <span class="lc-num">#1979</span>
+                <span class="lc-title">Find GCD of Array</span>
+                <span class="lc-difficulty diff-easy">Easy</span>
+              </div>
+              <div class="lc-body">
+                <p class="lc-problem">Given an array of integers, return the GCD of its smallest and largest elements.</p>
+                <div class="code-wrap">
+                  <div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                  <pre><span class="kw">import</span> math
+
+<span class="kw">def</span> <span class="fn">findGCD</span>(nums):
+    <span class="kw">return</span> math.gcd(min(nums), max(nums))</pre>
+                </div>
+                <p style="color:var(--text2);font-size:13.5px;">GCD only needs the min and max. <code>math.gcd</code> uses the Euclidean algorithm internally — O(log(min)) per call.</p>
+                <div class="lc-complexity">
+                  <span class="complexity-badge time-badge">Time: O(n)</span>
+                  <span class="complexity-badge space-badge">Space: O(1)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GCD -->
+      <div class="topic-card" id="gcd">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">1.2</span>
+            <div class="topic-title-wrap">
+              <h3>GCD — Greatest Common Divisor</h3>
+              <div class="topic-meta"><span class="meta-pill">Math</span><span class="meta-pill">Euclidean Algorithm</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'gcd')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'gcd-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'gcd-example')">Example</button>
+            <button class="tab-btn" onclick="switchTab(this,'gcd-patterns')">Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'gcd-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="gcd-theory">
+            <div class="theory-block">
+              <p>The <strong>Greatest Common Divisor (GCD)</strong> of two integers is the largest positive integer that divides both without a remainder. Also called HCF (Highest Common Factor).</p>
+              <p><strong>Key Properties:</strong></p>
+              <ul>
+                <li><code>GCD(a, 0) = a</code> — base case</li>
+                <li><code>GCD(a, b) = GCD(b, a % b)</code> — Euclidean algorithm recurrence</li>
+                <li><code>GCD(1, n) = 1</code> for any n (they are coprime)</li>
+                <li><code>GCD(a, a) = a</code></li>
+              </ul>
+              <p><strong>Use Cases:</strong> Simplifying fractions, checking coprimality, RSA cryptography, solving linear Diophantine equations.</p>
+              <div class="callout callout-tip">
+                <strong>Time Complexity</strong>
+                The Euclidean algorithm runs in O(log(min(a,b))) time — very fast even for huge inputs.
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="gcd-example">
+            <div class="example-block">
+              <p><strong>Problem:</strong> Find GCD(48, 18) step by step.</p>
+              <div class="step-trace">
+GCD(48, 18):<br>
+&nbsp;&nbsp;<span class="step-arrow">→</span> 48 = 18 × 2 + 12 &nbsp;<span class="step-comment">→ GCD(18, 12)</span><br>
+&nbsp;&nbsp;<span class="step-arrow">→</span> 18 = 12 × 1 + 6  &nbsp;<span class="step-comment">→ GCD(12, 6)</span><br>
+&nbsp;&nbsp;<span class="step-arrow">→</span> 12 = 6  × 2 + 0  &nbsp;<span class="step-comment">→ GCD(6, 0) = 6</span><br>
+<br>
+<span class="step-result">Answer: GCD(48, 18) = 6</span>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="gcd-patterns">
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="cm"># Iterative Euclidean (preferred)</span>
+<span class="kw">def</span> <span class="fn">gcd</span>(a, b):
+    <span class="kw">while</span> b:
+        a, b = b, a <span class="op">%</span> b
+    <span class="kw">return</span> a
+
+<span class="cm"># Recursive version</span>
+<span class="kw">def</span> <span class="fn">gcd_rec</span>(a, b):
+    <span class="kw">return</span> a <span class="kw">if</span> b == <span class="nm">0</span> <span class="kw">else</span> gcd_rec(b, a <span class="op">%</span> b)
+
+<span class="cm"># Check if two numbers are coprime</span>
+<span class="kw">def</span> <span class="fn">coprime</span>(a, b):
+    <span class="kw">return</span> gcd(a, b) == <span class="nm">1</span></pre>
+            </div>
+          </div>
+          <div class="tab-pane" id="gcd-lc">
+            <div class="lc-card">
+              <div class="lc-header">
+                <span class="lc-num">#1071</span>
+                <span class="lc-title">Greatest Common Divisor of Strings</span>
+                <span class="lc-difficulty diff-easy">Easy</span>
+              </div>
+              <div class="lc-body">
+                <p class="lc-problem">Return the largest string <code>x</code> that divides both <code>str1</code> and <code>str2</code> (both are made by repeating x).</p>
+                <div class="code-wrap">
+                  <div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                  <pre><span class="kw">import</span> math
+
+<span class="kw">def</span> <span class="fn">gcdOfStrings</span>(str1, str2):
+    <span class="cm"># If no divisor exists, concatenations differ</span>
+    <span class="kw">if</span> str1 + str2 != str2 + str1:
+        <span class="kw">return</span> <span class="st">""</span>
+    g = math.gcd(len(str1), len(str2))
+    <span class="kw">return</span> str1[:g]</pre>
+                </div>
+                <p style="color:var(--text2);font-size:13.5px;margin-top:10px;">If a string <code>x</code> divides both, then str1+str2 == str2+str1. The GCD of their lengths gives the length of the largest divisor string.</p>
+                <div class="lc-complexity">
+                  <span class="complexity-badge time-badge">Time: O(n+m)</span>
+                  <span class="complexity-badge space-badge">Space: O(n+m)</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Math Misc -->
+      <div class="topic-card" id="math-misc">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">1.3</span>
+            <div class="topic-title-wrap">
+              <h3>Primes, Modular Arithmetic &amp; Bit Tricks</h3>
+              <div class="topic-meta"><span class="meta-pill">Sieve</span><span class="meta-pill">Modular</span><span class="meta-pill">Bitwise</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'math-misc')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'misc-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'misc-patterns')">Code</button>
+          </div>
+          <div class="tab-pane active" id="misc-theory">
+            <div class="theory-block">
+              <p><strong>Sieve of Eratosthenes:</strong> Efficiently find all primes up to N. Mark all multiples of each prime as composite. Time: O(n log log n).</p>
+              <p><strong>Modular Arithmetic:</strong> Essential to prevent overflow in competitive programming.</p>
+              <ul>
+                <li><code>(a + b) % m = ((a%m) + (b%m)) % m</code></li>
+                <li><code>(a * b) % m = ((a%m) * (b%m)) % m</code></li>
+              </ul>
+              <p><strong>Fast Exponentiation (Binary Exponentiation):</strong> Computes <code>a^b mod m</code> in O(log b) instead of O(b).</p>
+
+              <table class="complexity-table" style="margin-top:14px;">
+                <tr><th>Bit Operation</th><th>Code</th><th>Use Case</th></tr>
+                <tr><td>Check even</td><td><code>n & 1 == 0</code></td><td>Parity</td></tr>
+                <tr><td>Power of 2</td><td><code>n & (n-1) == 0</code></td><td>Is power of 2?</td></tr>
+                <tr><td>Set bit i</td><td><code>n | (1 &lt;&lt; i)</code></td><td>Set specific bit</td></tr>
+                <tr><td>Clear bit i</td><td><code>n & ~(1 &lt;&lt; i)</code></td><td>Clear specific bit</td></tr>
+                <tr><td>XOR swap</td><td><code>a ^= b; b ^= a; a ^= b</code></td><td>Swap without temp</td></tr>
+              </table>
+            </div>
+          </div>
+          <div class="tab-pane" id="misc-patterns">
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="cm"># Sieve of Eratosthenes — O(n log log n)</span>
+<span class="kw">def</span> <span class="fn">sieve</span>(n):
+    is_prime = [<span class="kw">True</span>] * (n + <span class="nm">1</span>)
+    is_prime[<span class="nm">0</span>] = is_prime[<span class="nm">1</span>] = <span class="kw">False</span>
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="nm">2</span>, int(n**<span class="nm">0.5</span>) + <span class="nm">1</span>):
+        <span class="kw">if</span> is_prime[i]:
+            <span class="kw">for</span> j <span class="kw">in</span> range(i*i, n+<span class="nm">1</span>, i):
+                is_prime[j] = <span class="kw">False</span>
+    <span class="kw">return</span> [i <span class="kw">for</span> i <span class="kw">in</span> range(n+<span class="nm">1</span>) <span class="kw">if</span> is_prime[i]]
+
+<span class="cm"># Fast Power — a^exp mod m in O(log exp)</span>
+<span class="kw">def</span> <span class="fn">power</span>(base, exp, mod):
+    result = <span class="nm">1</span>
+    base <span class="op">%=</span> mod
+    <span class="kw">while</span> exp > <span class="nm">0</span>:
+        <span class="kw">if</span> exp <span class="op">%</span> <span class="nm">2</span> == <span class="nm">1</span>:
+            result = result * base <span class="op">%</span> mod
+        base = base * base <span class="op">%</span> mod
+        exp <span class="op">//=</span> <span class="nm">2</span>
+    <span class="kw">return</span> result</pre>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 2: DATA STRUCTURES ══ -->
+    <div class="section-group" id="ds-section">
+      <div class="section-header">
+        <div class="section-icon icon-ds">🗂️</div>
+        <div>
+          <span class="section-num">Section 02</span>
+          <h2>Core Data Structures</h2>
+        </div>
+      </div>
+
+      <!-- ARRAYS -->
+      <div class="topic-card" id="arrays">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">2.1</span>
+            <div class="topic-title-wrap">
+              <h3>Arrays</h3>
+              <div class="topic-meta"><span class="meta-pill">O(1) access</span><span class="meta-pill">Cache-friendly</span><span class="meta-pill">Two Pointers</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'arrays')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'arr-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'arr-example')">Example</button>
+            <button class="tab-btn" onclick="switchTab(this,'arr-patterns')">Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'arr-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="arr-theory">
+            <div class="theory-block">
+              <p>An <strong>array</strong> stores elements of the same type in a <strong>contiguous block of memory</strong>, accessed via zero-based index in O(1).</p>
+              <table class="complexity-table">
+                <tr><th>Operation</th><th>Time</th><th>Note</th></tr>
+                <tr><td>Access by index</td><td class="o-one">O(1)</td><td>Direct memory calculation</td></tr>
+                <tr><td>Search (unsorted)</td><td class="o-n">O(n)</td><td>Linear scan</td></tr>
+                <tr><td>Insert at end</td><td class="o-one">O(1)*</td><td>*Amortized for dynamic array</td></tr>
+                <tr><td>Insert at middle</td><td class="o-n">O(n)</td><td>Shift elements right</td></tr>
+                <tr><td>Delete at middle</td><td class="o-n">O(n)</td><td>Shift elements left</td></tr>
+              </table>
+              <div class="callout callout-info">
+                <strong>Cache Locality</strong>
+                Contiguous memory makes arrays extremely cache-friendly — iterating is faster than linked lists even when asymptotic complexity is the same.
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="arr-example">
+            <div class="example-block">
+              <p><strong>Kadane's Algorithm</strong> — Maximum Subarray Sum on <code>[-2, 1, -3, 4, -1, 2, 1, -5, 4]</code>:</p>
+              <div class="step-trace">
+Rule: curr_sum = max(num, curr_sum + num)<br>
+     <span class="step-comment">(restart fresh if adding is worse than starting over)</span><br>
+<br>
+idx  | num | curr_sum | max_sum<br>
+-----+-----+----------+--------<br>
+0    | -2  |   -2     |   -2<br>
+1    |  1  |    1     |    1<br>
+2    | -3  |   -2     |    1<br>
+3    |  4  |    4     |    4<br>
+4    | -1  |    3     |    4<br>
+5    |  2  |    5     |    5<br>
+6    |  1  |    6     |    6  <span class="step-result">← MAX</span><br>
+7    | -5  |    1     |    6<br>
+8    |  4  |    5     |    6<br>
+<br>
+<span class="step-result">Answer: 6  (subarray [4, -1, 2, 1])</span>
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="arr-patterns">
+            <div class="pattern-grid">
+              <div class="pattern-card"><h4>Two Pointers</h4><p>left+right converging for sorted arrays, pair sums, palindromes.</p></div>
+              <div class="pattern-card"><h4>Sliding Window</h4><p>Fixed or variable window sliding across array. Max/min subarray problems.</p></div>
+              <div class="pattern-card"><h4>Prefix Sum</h4><p>Precompute cumulative sums. Range query in O(1): sum(l,r) = prefix[r] − prefix[l−1].</p></div>
+              <div class="pattern-card"><h4>Kadane's</h4><p>Max subarray sum in O(n). Track curr_sum, reset when negative.</p></div>
+              <div class="pattern-card"><h4>Dutch Flag</h4><p>3-way partition (0s,1s,2s) in one pass using 3 pointers: low, mid, high.</p></div>
+              <div class="pattern-card"><h4>HashMap + Array</h4><p>Combine for O(n) solutions: subarray sum = k, two sum, etc.</p></div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python — Prefix Sum</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kw">def</span> <span class="fn">build_prefix</span>(arr):
+    prefix = [<span class="nm">0</span>] * (len(arr) + <span class="nm">1</span>)
+    <span class="kw">for</span> i, v <span class="kw">in</span> enumerate(arr):
+        prefix[i+<span class="nm">1</span>] = prefix[i] + v
+    <span class="kw">return</span> prefix
+
+<span class="kw">def</span> <span class="fn">range_sum</span>(prefix, l, r):  <span class="cm"># inclusive [l, r]</span>
+    <span class="kw">return</span> prefix[r+<span class="nm">1</span>] - prefix[l]</pre>
+            </div>
+          </div>
+          <div class="tab-pane" id="arr-lc">
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#53</span><span class="lc-title">Maximum Subarray</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Find the contiguous subarray with the largest sum.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">maxSubArray</span>(nums):
+    max_sum = curr_sum = nums[<span class="nm">0</span>]
+    <span class="kw">for</span> num <span class="kw">in</span> nums[<span class="nm">1</span>:]:
+        curr_sum = max(num, curr_sum + num)
+        max_sum = max(max_sum, curr_sum)
+    <span class="kw">return</span> max_sum</pre></div>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n)</span><span class="complexity-badge space-badge">Space: O(1)</span></div>
+              </div>
+            </div>
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#560</span><span class="lc-title">Subarray Sum Equals K</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Count contiguous subarrays that sum to k. Must run in O(n).</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">subarraySum</span>(nums, k):
+    count, prefix_sum = <span class="nm">0</span>, <span class="nm">0</span>
+    freq = {<span class="nm">0</span>: <span class="nm">1</span>}  <span class="cm"># prefix_sum → frequency</span>
+    <span class="kw">for</span> num <span class="kw">in</span> nums:
+        prefix_sum <span class="op">+=</span> num
+        count <span class="op">+=</span> freq.get(prefix_sum - k, <span class="nm">0</span>)
+        freq[prefix_sum] = freq.get(prefix_sum, <span class="nm">0</span>) + <span class="nm">1</span>
+    <span class="kw">return</span> count</pre></div>
+                <p style="color:var(--text2);font-size:13px;margin-top:10px;">Key insight: if <code>prefix[j] − prefix[i] = k</code>, subarray <code>[i+1..j]</code> sums to k. Use hashmap to track prefix frequency.</p>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n)</span><span class="complexity-badge space-badge">Space: O(n)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LINKED LISTS -->
+      <div class="topic-card" id="linked-lists">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">2.2</span>
+            <div class="topic-title-wrap">
+              <h3>Linked Lists</h3>
+              <div class="topic-meta"><span class="meta-pill">Singly</span><span class="meta-pill">Doubly</span><span class="meta-pill">Floyd's Algorithm</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'linked-lists')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'ll-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'ll-example')">Example</button>
+            <button class="tab-btn" onclick="switchTab(this,'ll-patterns')">Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'ll-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="ll-theory">
+            <div class="theory-block">
+              <p>A <strong>Linked List</strong> is a linear sequence of nodes where each node holds a value and a pointer to the next node. Nodes are NOT stored contiguously — no random access.</p>
+              <p><strong>Types:</strong> Singly (one next pointer), Doubly (next + prev pointers), Circular (last → head).</p>
+              <table class="complexity-table">
+                <tr><th>Operation</th><th>Singly LL</th><th>Doubly LL</th></tr>
+                <tr><td>Access by index</td><td class="o-n">O(n)</td><td class="o-n">O(n)</td></tr>
+                <tr><td>Insert at head</td><td class="o-one">O(1)</td><td class="o-one">O(1)</td></tr>
+                <tr><td>Insert at tail*</td><td class="o-one">O(1)</td><td class="o-one">O(1)</td></tr>
+                <tr><td>Delete known node</td><td class="o-n">O(n) find</td><td class="o-one">O(1) with prev</td></tr>
+              </table>
+              <p style="color:var(--text3);font-size:12px;margin-top:4px;">*O(1) only when tail pointer is maintained.</p>
+              <div class="callout callout-tip">
+                <strong>Use Cases</strong>
+                LRU Cache (doubly LL + hashmap), undo/redo stacks, implementing stacks/queues, polynomial representation.
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="ll-example">
+            <div class="example-block">
+              <p><strong>Floyd's Cycle Detection</strong> — slow pointer moves 1 step, fast moves 2. If cycle exists, they meet.</p>
+              <div class="step-trace">
+List: 1 → 2 → 3 → 4 → 5 → (back to 3)<br>
+<br>
+Step 1: slow=1,  fast=1<br>
+Step 2: slow=2,  fast=3<br>
+Step 3: slow=3,  fast=5<br>
+Step 4: slow=4,  fast=4  <span class="step-result">← MEET! Cycle detected ✓</span><br>
+<br>
+Why it works: fast gains 1 step per iteration on slow.<br>
+In a cycle of length L, they meet after at most L steps.
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="ll-patterns">
+            <div class="pattern-grid">
+              <div class="pattern-card"><h4>Fast & Slow Pointers</h4><p>Detect cycles, find middle. Slow moves 1x, fast moves 2x.</p></div>
+              <div class="pattern-card"><h4>Dummy Head Node</h4><p>Simplifies edge cases for head deletions/insertions. Always return dummy.next.</p></div>
+              <div class="pattern-card"><h4>Reverse In-Place</h4><p>Iterative: prev, curr, next. Three-pointer dance moving backward.</p></div>
+              <div class="pattern-card"><h4>Merge Two Sorted</h4><p>Two pointers picking smaller head. Used in Merge Sort on LL.</p></div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python — Reverse Linked List</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kw">def</span> <span class="fn">reverseList</span>(head):
+    prev, curr = <span class="kw">None</span>, head
+    <span class="kw">while</span> curr:
+        nxt = curr.next
+        curr.next = prev   <span class="cm"># reverse the pointer</span>
+        prev = curr        <span class="cm"># advance prev</span>
+        curr = nxt         <span class="cm"># advance curr</span>
+    <span class="kw">return</span> prev            <span class="cm"># new head</span></pre>
+            </div>
+          </div>
+          <div class="tab-pane" id="ll-lc">
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#141</span><span class="lc-title">Linked List Cycle</span><span class="lc-difficulty diff-easy">Easy</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Determine if a linked list has a cycle using O(1) space.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">hasCycle</span>(head):
+    slow = fast = head
+    <span class="kw">while</span> fast <span class="kw">and</span> fast.next:
+        slow = slow.next
+        fast = fast.next.next
+        <span class="kw">if</span> slow <span class="op">==</span> fast:
+            <span class="kw">return</span> <span class="kw">True</span>
+    <span class="kw">return</span> <span class="kw">False</span></pre></div>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n)</span><span class="complexity-badge space-badge">Space: O(1)</span></div>
+              </div>
+            </div>
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#21</span><span class="lc-title">Merge Two Sorted Lists</span><span class="lc-difficulty diff-easy">Easy</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Merge two sorted linked lists and return the merged sorted list.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">mergeTwoLists</span>(l1, l2):
+    dummy = ListNode(<span class="nm">0</span>)
+    curr = dummy
+    <span class="kw">while</span> l1 <span class="kw">and</span> l2:
+        <span class="kw">if</span> l1.val &lt;= l2.val:
+            curr.next = l1; l1 = l1.next
+        <span class="kw">else</span>:
+            curr.next = l2; l2 = l2.next
+        curr = curr.next
+    curr.next = l1 <span class="kw">or</span> l2
+    <span class="kw">return</span> dummy.next</pre></div>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(m+n)</span><span class="complexity-badge space-badge">Space: O(1)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- STACKS -->
+      <div class="topic-card" id="stacks">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">2.3</span>
+            <div class="topic-title-wrap">
+              <h3>Stacks</h3>
+              <div class="topic-meta"><span class="meta-pill">LIFO</span><span class="meta-pill">Monotonic Stack</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'stacks')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'stk-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'stk-patterns')">Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'stk-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="stk-theory">
+            <div class="theory-block">
+              <p>A <strong>Stack</strong> follows <strong>Last In, First Out (LIFO)</strong>. All operations happen at the top.</p>
+              <p><strong>Core Operations (all O(1)):</strong> push, pop, peek/top, isEmpty.</p>
+              <p>In Python, use a <code>list</code>: <code>append()</code> = push, <code>pop()</code> = pop, <code>[-1]</code> = peek.</p>
+              <div class="callout callout-tip">
+                <strong>Use Cases</strong>
+                Function call stack, balanced parentheses, expression evaluation, DFS (iterative), backtracking, undo/redo, monotonic stack (next greater element).
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="stk-patterns">
+            <div class="pattern-grid">
+              <div class="pattern-card"><h4>Balanced Brackets</h4><p>Push open brackets, pop+match on close. Return stack empty at end.</p></div>
+              <div class="pattern-card"><h4>Monotonic Stack</h4><p>Maintain increasing/decreasing stack. Pops tell you "next greater/smaller" relationships.</p></div>
+              <div class="pattern-card"><h4>Iterative DFS</h4><p>Replace recursion with an explicit stack. Push children, pop to visit.</p></div>
+              <div class="pattern-card"><h4>Two-Stack Queue</h4><p>One stack for input, one for output. Transfer when output empty.</p></div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python — Monotonic Stack</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="cm"># Next Greater Element</span>
+<span class="kw">def</span> <span class="fn">nextGreater</span>(nums):
+    result = [<span class="nm">-1</span>] * len(nums)
+    stack = []  <span class="cm"># stores indices</span>
+    <span class="kw">for</span> i, num <span class="kw">in</span> enumerate(nums):
+        <span class="kw">while</span> stack <span class="kw">and</span> nums[stack[<span class="nm">-1</span>]] &lt; num:
+            result[stack.pop()] = num
+        stack.append(i)
+    <span class="kw">return</span> result</pre>
+            </div>
+          </div>
+          <div class="tab-pane" id="stk-lc">
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#20</span><span class="lc-title">Valid Parentheses</span><span class="lc-difficulty diff-easy">Easy</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Determine if a string of brackets is valid (balanced and properly ordered).</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">isValid</span>(s):
+    stack = []
+    mapping = {<span class="st">')'</span>: <span class="st">'('</span>, <span class="st">'}'</span>: <span class="st">'{'</span>, <span class="st">']'</span>: <span class="st">'['</span>}
+    <span class="kw">for</span> char <span class="kw">in</span> s:
+        <span class="kw">if</span> char <span class="kw">in</span> mapping:
+            top = stack.pop() <span class="kw">if</span> stack <span class="kw">else</span> <span class="st">'#'</span>
+            <span class="kw">if</span> mapping[char] != top:
+                <span class="kw">return</span> <span class="kw">False</span>
+        <span class="kw">else</span>:
+            stack.append(char)
+    <span class="kw">return not</span> stack</pre></div>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n)</span><span class="complexity-badge space-badge">Space: O(n)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- QUEUES -->
+      <div class="topic-card" id="queues">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">2.4</span>
+            <div class="topic-title-wrap">
+              <h3>Queues</h3>
+              <div class="topic-meta"><span class="meta-pill">FIFO</span><span class="meta-pill">BFS</span><span class="meta-pill">Deque</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'queues')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'q-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'q-patterns')">Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'q-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="q-theory">
+            <div class="theory-block">
+              <p>A <strong>Queue</strong> follows <strong>First In, First Out (FIFO)</strong>. Elements are added at the rear and removed from the front.</p>
+              <p>In Python use <code>collections.deque</code> for O(1) both-end operations. <code>popleft()</code> is O(1) vs O(n) for a list.</p>
+              <p><strong>Variants:</strong> Deque (both-end O(1)), Priority Queue (<code>heapq</code>), Circular Queue (fixed-size OS scheduling).</p>
+              <div class="callout callout-tip">
+                <strong>BFS is the #1 use case</strong>
+                Any shortest-path problem on unweighted graphs or grids — always reach for a queue + visited set.
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="q-patterns">
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python — BFS Template</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kw">from</span> collections <span class="kw">import</span> deque
+
+<span class="kw">def</span> <span class="fn">bfs</span>(graph, start, target):
+    queue = deque([(start, <span class="nm">0</span>)])  <span class="cm"># (node, distance)</span>
+    visited = {start}
+    <span class="kw">while</span> queue:
+        node, dist = queue.popleft()
+        <span class="kw">if</span> node == target:
+            <span class="kw">return</span> dist
+        <span class="kw">for</span> neighbor <span class="kw">in</span> graph[node]:
+            <span class="kw">if</span> neighbor <span class="kw">not in</span> visited:
+                visited.add(neighbor)
+                queue.append((neighbor, dist+<span class="nm">1</span>))
+    <span class="kw">return</span> <span class="nm">-1</span>  <span class="cm"># not reachable</span></pre>
+            </div>
+          </div>
+          <div class="tab-pane" id="q-lc">
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#994</span><span class="lc-title">Rotting Oranges</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Grid of 0 (empty), 1 (fresh), 2 (rotten). Rotten oranges spread to 4-directional neighbors each minute. Return minutes until all fresh rot, or -1.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">from</span> collections <span class="kw">import</span> deque
+
+<span class="kw">def</span> <span class="fn">orangesRotting</span>(grid):
+    rows, cols = len(grid), len(grid[<span class="nm">0</span>])
+    queue, fresh = deque(), <span class="nm">0</span>
+    <span class="kw">for</span> r <span class="kw">in</span> range(rows):
+        <span class="kw">for</span> c <span class="kw">in</span> range(cols):
+            <span class="kw">if</span> grid[r][c] == <span class="nm">2</span>: queue.append((r, c, <span class="nm">0</span>))
+            <span class="kw">elif</span> grid[r][c] == <span class="nm">1</span>: fresh <span class="op">+=</span> <span class="nm">1</span>
+    max_time = <span class="nm">0</span>
+    dirs = [(<span class="nm">0</span>,<span class="nm">1</span>),(<span class="nm">1</span>,<span class="nm">0</span>),(<span class="nm">0</span>,<span class="nm">-1</span>),(<span class="nm">-1</span>,<span class="nm">0</span>)]
+    <span class="kw">while</span> queue:
+        r, c, t = queue.popleft()
+        <span class="kw">for</span> dr, dc <span class="kw">in</span> dirs:
+            nr, nc = r+dr, c+dc
+            <span class="kw">if</span> <span class="nm">0</span> &lt;= nr &lt; rows <span class="kw">and</span> <span class="nm">0</span> &lt;= nc &lt; cols <span class="kw">and</span> grid[nr][nc] == <span class="nm">1</span>:
+                grid[nr][nc] = <span class="nm">2</span>; fresh <span class="op">-=</span> <span class="nm">1</span>
+                max_time = max(max_time, t+<span class="nm">1</span>)
+                queue.append((nr, nc, t+<span class="nm">1</span>))
+    <span class="kw">return</span> max_time <span class="kw">if</span> fresh == <span class="nm">0</span> <span class="kw">else</span> <span class="nm">-1</span></pre></div>
+                <p style="color:var(--text2);font-size:13px;margin-top:10px;"><strong>Multi-source BFS:</strong> Start all rotten oranges in queue simultaneously at time 0 — they spread in parallel.</p>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(m×n)</span><span class="complexity-badge space-badge">Space: O(m×n)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- HASHING -->
+      <div class="topic-card" id="hashing">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">2.5</span>
+            <div class="topic-title-wrap">
+              <h3>Hashing</h3>
+              <div class="topic-meta"><span class="meta-pill">O(1) avg lookup</span><span class="meta-pill">Collisions</span><span class="meta-pill">HashMap / HashSet</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'hashing')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'hash-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'hash-patterns')">Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'hash-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="hash-theory">
+            <div class="theory-block">
+              <p>A <strong>Hash Table</strong> maps keys to values using a <strong>hash function</strong> to compute array indices. Average O(1) for insert, delete, and search.</p>
+              <p><strong>Collision Resolution:</strong></p>
+              <ul>
+                <li><strong>Chaining:</strong> Each bucket holds a linked list of colliding entries.</li>
+                <li><strong>Open Addressing:</strong> Find next available slot (linear/quadratic probing, double hashing).</li>
+              </ul>
+              <p><strong>Good Hash Function:</strong> Deterministic, uniform distribution, fast to compute, minimizes collisions.</p>
+              <div class="callout callout-info">
+                <strong>Python Built-ins</strong>
+                <code>dict</code> = hash map (key→value), <code>set</code> = hash set (unique keys). Both O(1) average. Use <code>collections.defaultdict</code> and <code>collections.Counter</code> for common patterns.
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="hash-patterns">
+            <div class="pattern-grid">
+              <div class="pattern-card"><h4>Frequency Count</h4><p><code>Counter(arr)</code> for element frequencies. Used in anagrams, duplicates.</p></div>
+              <div class="pattern-card"><h4>Complement Pattern</h4><p>Store seen elements. For each new element check if <code>target - elem</code> was seen. Two Sum classic.</p></div>
+              <div class="pattern-card"><h4>Group by Hash Key</h4><p>Group anagrams by sorted string key. Group by any canonical form.</p></div>
+              <div class="pattern-card"><h4>Sliding Window + Map</h4><p>Track character frequencies within window. Expand/shrink based on constraints.</p></div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python — Common Patterns</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kw">from</span> collections <span class="kw">import</span> Counter, defaultdict
+
+<span class="cm"># Frequency map</span>
+freq = Counter(<span class="st">"aabbc"</span>)  <span class="cm"># {'a':2,'b':2,'c':1}</span>
+
+<span class="cm"># defaultdict avoids KeyError</span>
+graph = defaultdict(list)
+graph[<span class="nm">1</span>].append(<span class="nm">2</span>)
+
+<span class="cm"># Complement (Two Sum style)</span>
+seen = {}
+<span class="kw">for</span> i, num <span class="kw">in</span> enumerate(nums):
+    <span class="kw">if</span> target - num <span class="kw">in</span> seen:
+        <span class="kw">return</span> [seen[target-num], i]
+    seen[num] = i</pre>
+            </div>
+          </div>
+          <div class="tab-pane" id="hash-lc">
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#1</span><span class="lc-title">Two Sum</span><span class="lc-difficulty diff-easy">Easy</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Return indices of two numbers in array that add up to target.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">twoSum</span>(nums, target):
+    seen = {}
+    <span class="kw">for</span> i, num <span class="kw">in</span> enumerate(nums):
+        comp = target - num
+        <span class="kw">if</span> comp <span class="kw">in</span> seen:
+            <span class="kw">return</span> [seen[comp], i]
+        seen[num] = i</pre></div>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n)</span><span class="complexity-badge space-badge">Space: O(n)</span></div>
+              </div>
+            </div>
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#128</span><span class="lc-title">Longest Consecutive Sequence</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Find the length of the longest consecutive sequence in O(n).</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">longestConsecutive</span>(nums):
+    num_set = set(nums)
+    best = <span class="nm">0</span>
+    <span class="kw">for</span> n <span class="kw">in</span> num_set:
+        <span class="kw">if</span> n - <span class="nm">1</span> <span class="kw">not in</span> num_set:  <span class="cm"># sequence start</span>
+            length = <span class="nm">1</span>
+            <span class="kw">while</span> n + length <span class="kw">in</span> num_set:
+                length <span class="op">+=</span> <span class="nm">1</span>
+            best = max(best, length)
+    <span class="kw">return</span> best</pre></div>
+                <p style="color:var(--text2);font-size:13px;margin-top:10px;">Only start counting from sequence beginnings (no predecessor). Each element is visited at most twice.</p>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n)</span><span class="complexity-badge space-badge">Space: O(n)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ SECTION 3: ALGORITHMS ══ -->
+    <div class="section-group" id="algo-section">
+      <div class="section-header">
+        <div class="section-icon icon-algo">⚡</div>
+        <div>
+          <span class="section-num">Section 03</span>
+          <h2>Algorithms</h2>
+        </div>
+      </div>
+
+      <!-- RECURSION -->
+      <div class="topic-card" id="recursion">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">3.1</span>
+            <div class="topic-title-wrap">
+              <h3>Recursion</h3>
+              <div class="topic-meta"><span class="meta-pill">Base Case</span><span class="meta-pill">Call Stack</span><span class="meta-pill">Backtracking</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'recursion')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'rec-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'rec-patterns')">Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'rec-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="rec-theory">
+            <div class="theory-block">
+              <p><strong>Recursion</strong> solves problems by having a function call itself on smaller subproblems until reaching a <strong>base case</strong>.</p>
+              <p><strong>Two essential components:</strong></p>
+              <ul>
+                <li><strong>Base Case:</strong> Condition that stops the recursion.</li>
+                <li><strong>Recursive Case:</strong> Breaks the problem smaller + recursive call.</li>
+              </ul>
+              <p>Each call adds a stack frame. Python default limit ≈ 1000 (can raise with <code>sys.setrecursionlimit</code>).</p>
+              <div class="callout callout-warn">
+                <strong>Memoization = Recursion + Cache</strong>
+                Without memo, Fibonacci is O(2^n). With <code>@lru_cache</code>, it becomes O(n). Always check for overlapping subproblems.
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="rec-patterns">
+            <div class="pattern-grid">
+              <div class="pattern-card"><h4>Linear Recursion</h4><p>One call per step. Factorial, power, reverse string.</p></div>
+              <div class="pattern-card"><h4>Binary Recursion</h4><p>Two calls per step. Fibonacci, merge sort, tree traversal.</p></div>
+              <div class="pattern-card"><h4>Backtracking</h4><p>Choose → Explore → Unchoose. Generate all valid states.</p></div>
+              <div class="pattern-card"><h4>Memoization</h4><p><code>@lru_cache</code> or manual dict. Cache overlapping subproblems.</p></div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python — Backtracking Template</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kw">def</span> <span class="fn">backtrack</span>(state, choices):
+    <span class="kw">if</span> is_solution(state):
+        result.append(state[:])
+        <span class="kw">return</span>
+    <span class="kw">for</span> choice <span class="kw">in</span> choices:
+        state.append(choice)      <span class="cm"># Choose</span>
+        backtrack(state, ...)     <span class="cm"># Explore</span>
+        state.pop()               <span class="cm"># Unchoose (backtrack)</span></pre>
+            </div>
+          </div>
+          <div class="tab-pane" id="rec-lc">
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#78</span><span class="lc-title">Subsets</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Return all possible subsets (power set) of a distinct integer array.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">subsets</span>(nums):
+    result = []
+    <span class="kw">def</span> <span class="fn">backtrack</span>(start, current):
+        result.append(current[:])
+        <span class="kw">for</span> i <span class="kw">in</span> range(start, len(nums)):
+            current.append(nums[i])
+            backtrack(i + <span class="nm">1</span>, current)
+            current.pop()  <span class="cm"># backtrack</span>
+    backtrack(<span class="nm">0</span>, [])
+    <span class="kw">return</span> result</pre></div>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(2^n · n)</span><span class="complexity-badge space-badge">Space: O(n)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SEARCHING -->
+      <div class="topic-card" id="searching">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">3.2</span>
+            <div class="topic-title-wrap">
+              <h3>Searching</h3>
+              <div class="topic-meta"><span class="meta-pill">Binary Search</span><span class="meta-pill">O(log n)</span><span class="meta-pill">Search on Answer</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'searching')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'srch-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'srch-patterns')">Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'srch-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="srch-theory">
+            <div class="theory-block">
+              <p><strong>Linear Search:</strong> O(n). Scan every element. Works on any array.</p>
+              <p><strong>Binary Search:</strong> O(log n). Repeatedly halve search space. <strong>Requires sorted input.</strong></p>
+              <p>For n=1,000,000: binary search needs at most <strong>20 comparisons</strong> (log₂(10⁶) ≈ 20).</p>
+              <div class="callout callout-info">
+                <strong>Safe Mid Calculation</strong>
+                Use <code>mid = left + (right - left) // 2</code> instead of <code>(left + right) // 2</code> to avoid integer overflow in languages with fixed int size (not an issue in Python, but good habit).
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="srch-patterns">
+            <div class="pattern-grid">
+              <div class="pattern-card"><h4>Classic Binary Search</h4><p>Find exact target. Return mid or -1.</p></div>
+              <div class="pattern-card"><h4>Lower Bound</h4><p>First position where arr[i] >= target. Move left=mid+1 when too small.</p></div>
+              <div class="pattern-card"><h4>Upper Bound</h4><p>First position where arr[i] > target.</p></div>
+              <div class="pattern-card"><h4>Search on Answer</h4><p>Binary search over the answer space when you can check feasibility.</p></div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python — Binary Search</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kw">def</span> <span class="fn">binarySearch</span>(nums, target):
+    left, right = <span class="nm">0</span>, len(nums) - <span class="nm">1</span>
+    <span class="kw">while</span> left &lt;= right:
+        mid = left + (right - left) <span class="op">//</span> <span class="nm">2</span>
+        <span class="kw">if</span> nums[mid] == target:   <span class="kw">return</span> mid
+        <span class="kw">elif</span> nums[mid] &lt; target: left = mid + <span class="nm">1</span>
+        <span class="kw">else</span>:                     right = mid - <span class="nm">1</span>
+    <span class="kw">return</span> -<span class="nm">1</span></pre>
+            </div>
+          </div>
+          <div class="tab-pane" id="srch-lc">
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#33</span><span class="lc-title">Search in Rotated Sorted Array</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Search in a sorted array that has been rotated at some unknown pivot point.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">search</span>(nums, target):
+    left, right = <span class="nm">0</span>, len(nums) - <span class="nm">1</span>
+    <span class="kw">while</span> left &lt;= right:
+        mid = (left + right) <span class="op">//</span> <span class="nm">2</span>
+        <span class="kw">if</span> nums[mid] == target: <span class="kw">return</span> mid
+        <span class="kw">if</span> nums[left] &lt;= nums[mid]:   <span class="cm"># left sorted</span>
+            <span class="kw">if</span> nums[left] &lt;= target &lt; nums[mid]:
+                right = mid - <span class="nm">1</span>
+            <span class="kw">else</span>: left = mid + <span class="nm">1</span>
+        <span class="kw">else</span>:                          <span class="cm"># right sorted</span>
+            <span class="kw">if</span> nums[mid] &lt; target &lt;= nums[right]:
+                left = mid + <span class="nm">1</span>
+            <span class="kw">else</span>: right = mid - <span class="nm">1</span>
+    <span class="kw">return</span> <span class="nm">-1</span></pre></div>
+                <p style="color:var(--text2);font-size:13px;margin-top:10px;">At least one half is always sorted. Determine which half, then check if target falls within it.</p>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(log n)</span><span class="complexity-badge space-badge">Space: O(1)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- SORTING -->
+      <div class="topic-card" id="sorting">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">3.3</span>
+            <div class="topic-title-wrap">
+              <h3>Sorting Algorithms</h3>
+              <div class="topic-meta"><span class="meta-pill">Bubble</span><span class="meta-pill">Selection</span><span class="meta-pill">Insertion</span><span class="meta-pill">Merge</span><span class="meta-pill">Quick</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'sorting')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'sort-theory')">Comparison</button>
+            <button class="tab-btn" onclick="switchTab(this,'sort-code')">All Code</button>
+            <button class="tab-btn" onclick="switchTab(this,'sort-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="sort-theory">
+            <table class="complexity-table">
+              <tr><th>Algorithm</th><th>Best</th><th>Average</th><th>Worst</th><th>Space</th><th>Stable</th></tr>
+              <tr><td>Bubble Sort</td><td class="o-n">O(n)</td><td class="o-n2">O(n²)</td><td class="o-n2">O(n²)</td><td class="o-one">O(1)</td><td>✅</td></tr>
+              <tr><td>Selection Sort</td><td class="o-n2">O(n²)</td><td class="o-n2">O(n²)</td><td class="o-n2">O(n²)</td><td class="o-one">O(1)</td><td>❌</td></tr>
+              <tr><td>Insertion Sort</td><td class="o-n">O(n)</td><td class="o-n2">O(n²)</td><td class="o-n2">O(n²)</td><td class="o-one">O(1)</td><td>✅</td></tr>
+              <tr><td>Merge Sort</td><td class="o-log">O(n log n)</td><td class="o-log">O(n log n)</td><td class="o-log">O(n log n)</td><td class="o-n">O(n)</td><td>✅</td></tr>
+              <tr><td>Quick Sort</td><td class="o-log">O(n log n)</td><td class="o-log">O(n log n)</td><td class="o-n2">O(n²)</td><td class="o-log">O(log n)</td><td>❌</td></tr>
+            </table>
+            <div class="callout callout-tip">
+              <strong>Quick Picks</strong>
+              Merge Sort for guaranteed O(n log n) and stability. Quick Sort for practice (better cache). Insertion Sort for nearly-sorted or small arrays (≤20 elements).
+            </div>
+          </div>
+          <div class="tab-pane" id="sort-code">
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Merge Sort — O(n log n)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kw">def</span> <span class="fn">mergeSort</span>(arr):
+    <span class="kw">if</span> len(arr) &lt;= <span class="nm">1</span>: <span class="kw">return</span> arr
+    mid = len(arr) <span class="op">//</span> <span class="nm">2</span>
+    left = mergeSort(arr[:mid])
+    right = mergeSort(arr[mid:])
+    <span class="kw">return</span> merge(left, right)
+
+<span class="kw">def</span> <span class="fn">merge</span>(L, R):
+    result, i, j = [], <span class="nm">0</span>, <span class="nm">0</span>
+    <span class="kw">while</span> i &lt; len(L) <span class="kw">and</span> j &lt; len(R):
+        <span class="kw">if</span> L[i] &lt;= R[j]: result.append(L[i]); i <span class="op">+=</span> <span class="nm">1</span>
+        <span class="kw">else</span>:             result.append(R[j]); j <span class="op">+=</span> <span class="nm">1</span>
+    <span class="kw">return</span> result + L[i:] + R[j:]</pre>
+            </div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Quick Sort — O(n log n) avg</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kw">def</span> <span class="fn">quickSort</span>(arr, low=<span class="nm">0</span>, high=<span class="kw">None</span>):
+    <span class="kw">if</span> high <span class="kw">is None</span>: high = len(arr) - <span class="nm">1</span>
+    <span class="kw">if</span> low &lt; high:
+        p = partition(arr, low, high)
+        quickSort(arr, low, p - <span class="nm">1</span>)
+        quickSort(arr, p + <span class="nm">1</span>, high)
+
+<span class="kw">def</span> <span class="fn">partition</span>(arr, low, high):
+    pivot, i = arr[high], low - <span class="nm">1</span>
+    <span class="kw">for</span> j <span class="kw">in</span> range(low, high):
+        <span class="kw">if</span> arr[j] &lt;= pivot:
+            i <span class="op">+=</span> <span class="nm">1</span>
+            arr[i], arr[j] = arr[j], arr[i]
+    arr[i+<span class="nm">1</span>], arr[high] = arr[high], arr[i+<span class="nm">1</span>]
+    <span class="kw">return</span> i + <span class="nm">1</span></pre>
+            </div>
+          </div>
+          <div class="tab-pane" id="sort-lc">
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#75</span><span class="lc-title">Sort Colors (Dutch National Flag)</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Sort an array of 0s, 1s, and 2s in-place in a single pass without extra space.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">sortColors</span>(nums):
+    low, mid, high = <span class="nm">0</span>, <span class="nm">0</span>, len(nums) - <span class="nm">1</span>
+    <span class="kw">while</span> mid &lt;= high:
+        <span class="kw">if</span>   nums[mid] == <span class="nm">0</span>: nums[low], nums[mid] = nums[mid], nums[low]; low <span class="op">+=</span> <span class="nm">1</span>; mid <span class="op">+=</span> <span class="nm">1</span>
+        <span class="kw">elif</span> nums[mid] == <span class="nm">1</span>: mid <span class="op">+=</span> <span class="nm">1</span>
+        <span class="kw">else</span>:               nums[mid], nums[high] = nums[high], nums[mid]; high <span class="op">-=</span> <span class="nm">1</span></pre></div>
+                <p style="color:var(--text2);font-size:13px;margin-top:10px;">Three pointers: <code>low</code>=end of 0s, <code>high</code>=start of 2s, <code>mid</code>=explorer. When swapping with high, don't advance mid (swapped element unexamined).</p>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n)</span><span class="complexity-badge space-badge">Space: O(1)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- DYNAMIC PROGRAMMING -->
+      <div class="topic-card" id="dp" style="border-color: rgba(244,114,182,0.25);">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">3.4</span>
+            <div class="topic-title-wrap">
+              <h3>Dynamic Programming <span class="important-badge">⭐ Most Important</span></h3>
+              <div class="topic-meta"><span class="meta-pill">Memoization</span><span class="meta-pill">Tabulation</span><span class="meta-pill">Optimal Substructure</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'dp')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'dp-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'dp-framework')">Framework</button>
+            <button class="tab-btn" onclick="switchTab(this,'dp-patterns')">DP Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'dp-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="dp-theory">
+            <div class="theory-block">
+              <p><strong>Dynamic Programming</strong> solves problems by breaking them into overlapping subproblems and caching results to avoid recomputation.</p>
+              <p><strong>Two required properties:</strong></p>
+              <ul>
+                <li><strong>Optimal Substructure:</strong> Optimal solution = optimal solutions to subproblems.</li>
+                <li><strong>Overlapping Subproblems:</strong> Same subproblems appear multiple times.</li>
+              </ul>
+              <p><strong>Two approaches:</strong></p>
+              <ul>
+                <li><strong>Top-Down (Memoization):</strong> Recursive + cache. Natural to write. Has call stack overhead.</li>
+                <li><strong>Bottom-Up (Tabulation):</strong> Iterative table filling. Faster, no recursion overhead. Build from base cases up.</li>
+              </ul>
+              <div class="callout callout-info">
+                <strong>DP vs Recursion vs Greedy</strong>
+                Recursion without cache = exponential. DP = recursion with cache = polynomial. Greedy = DP's special case where the greedy choice is always optimal without needing to explore others.
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="dp-framework">
+            <div class="theory-block">
+              <p style="font-weight:500;color:var(--text);margin-bottom:16px;">The 5-Step DP Framework:</p>
+              <div style="display:flex;flex-direction:column;gap:12px;">
+                <div style="display:flex;gap:14px;align-items:flex-start;">
+                  <div style="min-width:28px;height:28px;border-radius:50%;background:var(--accent3);border:1px solid rgba(108,99,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--accent2);flex-shrink:0;">1</div>
+                  <div><strong>Define the State</strong> — What does <code>dp[i]</code> represent? Be precise.</div>
+                </div>
+                <div style="display:flex;gap:14px;align-items:flex-start;">
+                  <div style="min-width:28px;height:28px;border-radius:50%;background:var(--accent3);border:1px solid rgba(108,99,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--accent2);flex-shrink:0;">2</div>
+                  <div><strong>Find the Recurrence</strong> — How does <code>dp[i]</code> relate to smaller states?</div>
+                </div>
+                <div style="display:flex;gap:14px;align-items:flex-start;">
+                  <div style="min-width:28px;height:28px;border-radius:50%;background:var(--accent3);border:1px solid rgba(108,99,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--accent2);flex-shrink:0;">3</div>
+                  <div><strong>Base Cases</strong> — The smallest valid states that can be answered directly.</div>
+                </div>
+                <div style="display:flex;gap:14px;align-items:flex-start;">
+                  <div style="min-width:28px;height:28px;border-radius:50%;background:var(--accent3);border:1px solid rgba(108,99,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--accent2);flex-shrink:0;">4</div>
+                  <div><strong>Order of Computation</strong> — Ensure smaller states are computed before larger ones.</div>
+                </div>
+                <div style="display:flex;gap:14px;align-items:flex-start;">
+                  <div style="min-width:28px;height:28px;border-radius:50%;background:var(--accent3);border:1px solid rgba(108,99,255,0.4);display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;color:var(--accent2);flex-shrink:0;">5</div>
+                  <div><strong>Return the Answer</strong> — Which dp cell holds the final answer?</div>
+                </div>
+              </div>
+              <div class="callout callout-tip" style="margin-top:20px;">
+                <strong>Example: Coin Change</strong>
+                State: dp[a] = min coins for amount a. Recurrence: dp[a] = min(dp[a-coin]+1) for all valid coins. Base: dp[0]=0. Order: fill a=1 to amount. Answer: dp[amount].
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="dp-patterns">
+            <div class="pattern-grid">
+              <div class="pattern-card"><h4>Linear DP</h4><p>1D state. dp[i] = dp[i-1] + dp[i-2]. Climbing Stairs, House Robber.</p></div>
+              <div class="pattern-card"><h4>0/1 Knapsack</h4><p>2D state: items × capacity. For each item: skip or take.</p></div>
+              <div class="pattern-card"><h4>Unbounded Knapsack</h4><p>Same as 0/1 but item can be reused. Use same row when iterating.</p></div>
+              <div class="pattern-card"><h4>String DP (LCS)</h4><p>2D table on two sequences. dp[i][j] = LCS of s1[0..i] and s2[0..j].</p></div>
+              <div class="pattern-card"><h4>LIS</h4><p>dp[i] = LIS length ending at index i. Look back at all j &lt; i.</p></div>
+              <div class="pattern-card"><h4>Interval DP</h4><p>dp[i][j] = solve subarray [i..j]. Burst Balloons, Matrix Chain.</p></div>
+            </div>
+            <table class="complexity-table" style="margin-top:16px;">
+              <tr><th>Pattern</th><th>Recurrence</th><th>Example Problems</th></tr>
+              <tr><td>Fibonacci-style</td><td><code>dp[i] = dp[i-1] + dp[i-2]</code></td><td>Climbing Stairs</td></tr>
+              <tr><td>Min/Max cost</td><td><code>dp[i] = min/max over choices</code></td><td>Coin Change, Jump Game</td></tr>
+              <tr><td>0/1 Knapsack</td><td><code>dp[i][w] = max(skip, take)</code></td><td>Partition Equal Subset</td></tr>
+              <tr><td>LCS</td><td><code>match: dp[i-1][j-1]+1, else max(skip)</code></td><td>LCS, Edit Distance</td></tr>
+              <tr><td>LIS</td><td><code>dp[i] = max(dp[j]+1)</code></td><td>Longest Increasing Subseq</td></tr>
+            </table>
+          </div>
+          <div class="tab-pane" id="dp-lc">
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#70</span><span class="lc-title">Climbing Stairs</span><span class="lc-difficulty diff-easy">Easy</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">You can climb 1 or 2 steps at a time. In how many distinct ways can you reach step n?</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">climbStairs</span>(n):
+    <span class="kw">if</span> n &lt;= <span class="nm">2</span>: <span class="kw">return</span> n
+    a, b = <span class="nm">1</span>, <span class="nm">2</span>
+    <span class="kw">for</span> _ <span class="kw">in</span> range(<span class="nm">3</span>, n+<span class="nm">1</span>):
+        a, b = b, a + b  <span class="cm"># Fibonacci</span>
+    <span class="kw">return</span> b</pre></div>
+                <p style="color:var(--text2);font-size:13px;margin-top:10px;">Ways to reach step n = ways from (n-1) + ways from (n-2). This is exactly Fibonacci. Space-optimized to O(1) using two variables.</p>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n)</span><span class="complexity-badge space-badge">Space: O(1)</span></div>
+              </div>
+            </div>
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#322</span><span class="lc-title">Coin Change</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Given coin denominations, find the minimum number of coins to make a target amount. Return -1 if impossible.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">coinChange</span>(coins, amount):
+    dp = [float(<span class="st">'inf'</span>)] * (amount + <span class="nm">1</span>)
+    dp[<span class="nm">0</span>] = <span class="nm">0</span>  <span class="cm"># base case</span>
+    <span class="kw">for</span> a <span class="kw">in</span> range(<span class="nm">1</span>, amount + <span class="nm">1</span>):
+        <span class="kw">for</span> coin <span class="kw">in</span> coins:
+            <span class="kw">if</span> coin &lt;= a:
+                dp[a] = min(dp[a], dp[a - coin] + <span class="nm">1</span>)
+    <span class="kw">return</span> dp[amount] <span class="kw">if</span> dp[amount] != float(<span class="st">'inf'</span>) <span class="kw">else</span> <span class="nm">-1</span></pre></div>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(amount × coins)</span><span class="complexity-badge space-badge">Space: O(amount)</span></div>
+              </div>
+            </div>
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#1143</span><span class="lc-title">Longest Common Subsequence</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Find the length of the longest common subsequence of two strings.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">longestCommonSubsequence</span>(text1, text2):
+    m, n = len(text1), len(text2)
+    dp = [[<span class="nm">0</span>] * (n+<span class="nm">1</span>) <span class="kw">for</span> _ <span class="kw">in</span> range(m+<span class="nm">1</span>)]
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="nm">1</span>, m+<span class="nm">1</span>):
+        <span class="kw">for</span> j <span class="kw">in</span> range(<span class="nm">1</span>, n+<span class="nm">1</span>):
+            <span class="kw">if</span> text1[i-<span class="nm">1</span>] == text2[j-<span class="nm">1</span>]:
+                dp[i][j] = dp[i-<span class="nm">1</span>][j-<span class="nm">1</span>] + <span class="nm">1</span>  <span class="cm"># match</span>
+            <span class="kw">else</span>:
+                dp[i][j] = max(dp[i-<span class="nm">1</span>][j], dp[i][j-<span class="nm">1</span>])
+    <span class="kw">return</span> dp[m][n]</pre></div>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(m×n)</span><span class="complexity-badge space-badge">Space: O(m×n)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- GREEDY -->
+      <div class="topic-card" id="greedy" style="border-color: rgba(74,222,128,0.2);">
+        <div class="topic-header" onclick="toggleTopic(this)">
+          <div class="topic-header-left">
+            <span class="topic-num">3.5</span>
+            <div class="topic-title-wrap">
+              <h3>Greedy Algorithms <span class="important-badge">⭐ Most Important</span></h3>
+              <div class="topic-meta"><span class="meta-pill">Locally Optimal</span><span class="meta-pill">No Backtrack</span><span class="meta-pill">Intervals</span></div>
+            </div>
+          </div>
+          <button class="topic-done-btn" onclick="toggleDone(event,'greedy')">Mark done</button>
+          <span class="topic-chevron">▼</span>
+        </div>
+        <div class="topic-body">
+          <div class="tab-bar">
+            <button class="tab-btn active" onclick="switchTab(this,'gr-theory')">Theory</button>
+            <button class="tab-btn" onclick="switchTab(this,'gr-patterns')">Patterns</button>
+            <button class="tab-btn" onclick="switchTab(this,'gr-vs-dp')">Greedy vs DP</button>
+            <button class="tab-btn" onclick="switchTab(this,'gr-lc')">LeetCode</button>
+          </div>
+          <div class="tab-pane active" id="gr-theory">
+            <div class="theory-block">
+              <p>A <strong>Greedy Algorithm</strong> makes the <strong>locally optimal choice at each step</strong> with the hope of finding the global optimum — and commits to that choice without ever reconsidering.</p>
+              <p><strong>When does Greedy work? (Both must hold):</strong></p>
+              <ul>
+                <li><strong>Greedy Choice Property:</strong> A globally optimal solution can be constructed by making locally optimal choices.</li>
+                <li><strong>Optimal Substructure:</strong> Optimal solution to the whole = greedy choice + optimal solution to the remainder.</li>
+              </ul>
+              <p><strong>Key Mindset:</strong> "What's the single best decision I can make RIGHT NOW, and will committing to it never hurt me later?"</p>
+              <div class="callout callout-warn">
+                <strong>Always Verify!</strong>
+                Greedy doesn't always work. Classic counterexample: coin change with arbitrary denominations (need DP). Always prove or test your greedy intuition.
+              </div>
+            </div>
+          </div>
+          <div class="tab-pane" id="gr-patterns">
+            <div class="pattern-grid">
+              <div class="pattern-card"><h4>Interval Scheduling</h4><p>Sort by end time. Always pick activity that ends earliest. Leaves most room for future.</p></div>
+              <div class="pattern-card"><h4>Interval Merging</h4><p>Sort by start time. Merge overlapping intervals by extending end.</p></div>
+              <div class="pattern-card"><h4>Fractional Knapsack</h4><p>Sort items by value/weight ratio. Take highest density first.</p></div>
+              <div class="pattern-card"><h4>Jump Game</h4><p>Track farthest reachable index. If current index exceeds it, stuck.</p></div>
+              <div class="pattern-card"><h4>Gas Station</h4><p>If total gas ≥ total cost, solution exists. Start fresh when tank goes negative.</p></div>
+              <div class="pattern-card"><h4>Huffman Coding</h4><p>Min-heap: combine two smallest frequencies into a new node repeatedly.</p></div>
+            </div>
+            <div class="code-wrap">
+              <div class="code-header"><span class="code-lang">Python — Activity Selection (Sort by End Time)</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+              <pre><span class="kw">def</span> <span class="fn">activitySelection</span>(activities):
+    activities.sort(key=<span class="kw">lambda</span> x: x[<span class="nm">1</span>])  <span class="cm"># sort by end time</span>
+    count, last_end = <span class="nm">0</span>, float(<span class="st">'-inf'</span>)
+    <span class="kw">for</span> start, end <span class="kw">in</span> activities:
+        <span class="kw">if</span> start >= last_end:
+            count <span class="op">+=</span> <span class="nm">1</span>
+            last_end = end
+    <span class="kw">return</span> count</pre>
+            </div>
+          </div>
+          <div class="tab-pane" id="gr-vs-dp">
+            <table class="complexity-table">
+              <tr><th>Factor</th><th>Greedy</th><th>Dynamic Programming</th></tr>
+              <tr><td>Revisit choices?</td><td>Never</td><td>Yes — exhausts all</td></tr>
+              <tr><td>Typical complexity</td><td>O(n log n)</td><td>O(n²) or more</td></tr>
+              <tr><td>Proof required?</td><td>Yes — must prove greedy choice is safe</td><td>No — DP is correct by construction</td></tr>
+              <tr><td>Key signal</td><td>"Earliest/latest/most/least" at each step</td><td>"Number of ways", "min/max over all paths"</td></tr>
+              <tr><td>Classic examples</td><td>Activity selection, Dijkstra, Prim's</td><td>Knapsack, LCS, Coin Change</td></tr>
+            </table>
+            <div class="callout callout-info">
+              <strong>Decision Rule</strong>
+              If "number of ways to achieve X" → DP. If "what's the best single choice at each step" AND committing to it can't hurt future choices → Greedy. When in doubt → DP.
+            </div>
+          </div>
+          <div class="tab-pane" id="gr-lc">
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#435</span><span class="lc-title">Non-overlapping Intervals</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Find the minimum number of intervals to remove so the rest don't overlap.</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">eraseOverlapIntervals</span>(intervals):
+    <span class="kw">if not</span> intervals: <span class="kw">return</span> <span class="nm">0</span>
+    intervals.sort(key=<span class="kw">lambda</span> x: x[<span class="nm">1</span>])  <span class="cm"># sort by end</span>
+    count, last_end = <span class="nm">0</span>, intervals[<span class="nm">0</span>][<span class="nm">1</span>]
+    <span class="kw">for</span> i <span class="kw">in</span> range(<span class="nm">1</span>, len(intervals)):
+        <span class="kw">if</span> intervals[i][<span class="nm">0</span>] &lt; last_end:  <span class="cm"># overlap!</span>
+            count <span class="op">+=</span> <span class="nm">1</span>  <span class="cm"># remove this one</span>
+        <span class="kw">else</span>:
+            last_end = intervals[i][<span class="nm">1</span>]
+    <span class="kw">return</span> count</pre></div>
+                <p style="color:var(--text2);font-size:13px;margin-top:10px;">Greedy: when overlap occurs, remove the interval that ends later (keep the one with smaller end — it's less obstructive to future intervals).</p>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n log n)</span><span class="complexity-badge space-badge">Space: O(1)</span></div>
+              </div>
+            </div>
+            <div class="lc-card">
+              <div class="lc-header"><span class="lc-num">#55</span><span class="lc-title">Jump Game</span><span class="lc-difficulty diff-medium">Medium</span></div>
+              <div class="lc-body">
+                <p class="lc-problem">Each element is the max jump length from that position. Can you reach the last index?</p>
+                <div class="code-wrap"><div class="code-header"><span class="code-lang">Python</span><button class="copy-btn" onclick="copyCode(this)">Copy</button></div>
+                <pre><span class="kw">def</span> <span class="fn">canJump</span>(nums):
+    max_reach = <span class="nm">0</span>
+    <span class="kw">for</span> i, jump <span class="kw">in</span> enumerate(nums):
+        <span class="kw">if</span> i > max_reach:
+            <span class="kw">return</span> <span class="kw">False</span>  <span class="cm"># can't reach here</span>
+        max_reach = max(max_reach, i + jump)
+    <span class="kw">return</span> <span class="kw">True</span></pre></div>
+                <div class="lc-complexity"><span class="complexity-badge time-badge">Time: O(n)</span><span class="complexity-badge space-badge">Space: O(1)</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ CHEAT SHEET ══ -->
+    <div class="section-group" id="cheatsheet">
+      <div class="section-header">
+        <div class="section-icon icon-algo">📊</div>
+        <div>
+          <span class="section-num">Reference</span>
+          <h2>Big-O Cheat Sheet</h2>
+        </div>
+      </div>
+
+      <div class="bigo-section">
+        <h3>Data Structure Complexities</h3>
+        <table class="complexity-table">
+          <tr><th>Structure</th><th>Access</th><th>Search</th><th>Insert</th><th>Delete</th></tr>
+          <tr><td>Array</td><td class="o-one">O(1)</td><td class="o-n">O(n)</td><td class="o-n">O(n)</td><td class="o-n">O(n)</td></tr>
+          <tr><td>Linked List</td><td class="o-n">O(n)</td><td class="o-n">O(n)</td><td class="o-one">O(1)*</td><td class="o-one">O(1)*</td></tr>
+          <tr><td>Stack / Queue</td><td class="o-n">O(n)</td><td class="o-n">O(n)</td><td class="o-one">O(1)</td><td class="o-one">O(1)</td></tr>
+          <tr><td>Hash Table</td><td>—</td><td class="o-one">O(1) avg</td><td class="o-one">O(1) avg</td><td class="o-one">O(1) avg</td></tr>
+          <tr><td>BST (balanced)</td><td class="o-log">O(log n)</td><td class="o-log">O(log n)</td><td class="o-log">O(log n)</td><td class="o-log">O(log n)</td></tr>
+          <tr><td>Sorted Array</td><td class="o-one">O(1)</td><td class="o-log">O(log n)</td><td class="o-n">O(n)</td><td class="o-n">O(n)</td></tr>
+        </table>
+      </div>
+
+      <div class="bigo-section">
+        <h3>Algorithm Complexities</h3>
+        <table class="complexity-table">
+          <tr><th>Algorithm</th><th>Time</th><th>Space</th><th>Notes</th></tr>
+          <tr><td>Linear Search</td><td class="o-n">O(n)</td><td class="o-one">O(1)</td><td>Any array</td></tr>
+          <tr><td>Binary Search</td><td class="o-log">O(log n)</td><td class="o-one">O(1)</td><td>Sorted required</td></tr>
+          <tr><td>Bubble / Selection / Insertion</td><td class="o-n2">O(n²)</td><td class="o-one">O(1)</td><td>Simple, slow</td></tr>
+          <tr><td>Merge Sort</td><td class="o-log">O(n log n)</td><td class="o-n">O(n)</td><td>Stable, guaranteed</td></tr>
+          <tr><td>Quick Sort</td><td class="o-log">O(n log n) avg</td><td class="o-log">O(log n)</td><td>In-place</td></tr>
+          <tr><td>BFS / DFS</td><td>O(V+E)</td><td>O(V)</td><td>Graph traversal</td></tr>
+          <tr><td>Fibonacci (naive)</td><td>O(2^n)</td><td class="o-n">O(n)</td><td>Use memo!</td></tr>
+          <tr><td>Fibonacci (DP)</td><td class="o-n">O(n)</td><td class="o-one">O(1)</td><td>Two variables</td></tr>
+          <tr><td>Sieve of Eratosthenes</td><td>O(n log log n)</td><td class="o-n">O(n)</td><td>All primes to n</td></tr>
+          <tr><td>GCD (Euclidean)</td><td>O(log min(a,b))</td><td class="o-one">O(1)</td><td>Very fast</td></tr>
+        </table>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<button id="back-top" onclick="window.scrollTo({top:0,behavior:'smooth'})" aria-label="Back to top">↑</button>
+
+<script>
+const DONE_KEY = 'dsa_done_topics';
+
+function getDone() {
+  try { return JSON.parse(localStorage.getItem(DONE_KEY) || '[]'); } catch { return []; }
+}
+function saveDone(arr) {
+  try { localStorage.setItem(DONE_KEY, JSON.stringify(arr)); } catch {}
+}
+
+function toggleTopic(header) {
+  const card = header.closest('.topic-card');
+  card.classList.toggle('open');
+}
+
+function switchTab(btn, paneId) {
+  const body = btn.closest('.topic-body');
+  body.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  body.querySelectorAll('.tab-pane').forEach(p => p.classList.remove('active'));
+  btn.classList.add('active');
+  const pane = document.getElementById(paneId);
+  if (pane) pane.classList.add('active');
+}
+
+function toggleDone(e, topicId) {
+  e.stopPropagation();
+  const done = getDone();
+  const btn = e.target;
+  const idx = done.indexOf(topicId);
+  if (idx > -1) {
+    done.splice(idx, 1);
+    btn.classList.remove('done');
+    btn.textContent = 'Mark done';
+  } else {
+    done.push(topicId);
+    btn.classList.add('done');
+    btn.textContent = '✓ Done';
+  }
+  saveDone(done);
+  updateProgress();
+  updateNavDone();
+}
+
+const TOPICS = ['lcm','gcd','math-misc','arrays','linked-lists','stacks','queues','hashing','recursion','searching','sorting','dp','greedy'];
+
+function updateProgress() {
+  const done = getDone();
+  const count = done.filter(t => TOPICS.includes(t)).length;
+  const pct = Math.round(count / TOPICS.length * 100);
+  document.getElementById('progressBar').style.width = pct + '%';
+  document.getElementById('progressCount').textContent = count + ' / ' + TOPICS.length + ' topics';
+}
+
+function updateNavDone() {
+  const done = getDone();
+  document.querySelectorAll('.nav-item[data-topic]').forEach(a => {
+    const id = a.dataset.topic;
+    if (done.includes(id)) a.classList.add('done');
+    else a.classList.remove('done');
+  });
+  // Update done buttons
+  document.querySelectorAll('.topic-done-btn').forEach(btn => {
+    const card = btn.closest('.topic-card');
+    if (!card) return;
+    const id = card.id;
+    if (done.includes(id)) {
+      btn.classList.add('done');
+      btn.textContent = '✓ Done';
+    } else {
+      btn.classList.remove('done');
+      btn.textContent = 'Mark done';
+    }
+  });
+}
+
+function copyCode(btn) {
+  const pre = btn.closest('.code-wrap').querySelector('pre');
+  const text = pre.innerText;
+  navigator.clipboard.writeText(text).then(() => {
+    btn.textContent = 'Copied!';
+    btn.classList.add('copied');
+    setTimeout(() => { btn.textContent = 'Copy'; btn.classList.remove('copied'); }, 2000);
+  });
+}
+
+// Search
+document.getElementById('searchInput').addEventListener('input', function() {
+  const q = this.value.toLowerCase();
+  document.querySelectorAll('.nav-item[data-topic]').forEach(a => {
+    const text = a.textContent.toLowerCase();
+    a.style.display = (!q || text.includes(q)) ? '' : 'none';
+  });
+  document.querySelectorAll('.nav-section-label').forEach(label => {
+    label.style.display = q ? 'none' : '';
+  });
+});
+
+// Active nav on scroll
+const sectionEls = TOPICS.map(id => document.getElementById(id)).filter(Boolean);
+function onScroll() {
+  const scrollY = window.scrollY + 120;
+  let active = null;
+  for (const el of sectionEls) {
+    if (el.offsetTop <= scrollY) active = el.id;
+  }
+  document.querySelectorAll('.nav-item[data-topic]').forEach(a => {
+    a.classList.toggle('active', a.dataset.topic === active);
+  });
+  // Back to top
+  document.getElementById('back-top').classList.toggle('visible', window.scrollY > 400);
+}
+window.addEventListener('scroll', onScroll, { passive: true });
+
+// Mobile menu
+document.getElementById('menuToggle').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.toggle('open');
+});
+document.getElementById('main').addEventListener('click', () => {
+  document.getElementById('sidebar').classList.remove('open');
+});
+
+// Keyboard shortcut
+document.addEventListener('keydown', e => {
+  if ((e.key === 'k' || e.key === 'K') && !e.ctrlKey && !e.metaKey) {
+    const input = document.getElementById('searchInput');
+    if (document.activeElement !== input) { e.preventDefault(); input.focus(); }
+  }
+});
+
+// Init
+updateProgress();
+updateNavDone();
+</script>
+</body>
+</html>
